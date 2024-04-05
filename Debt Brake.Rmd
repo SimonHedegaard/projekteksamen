@@ -13,6 +13,30 @@ knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 debt <- read_excel("Makroøkonomisk projekt.xlsx", sheet = "Debt ")
 na.omit(debt)
+debt
+```
+
+```{r}
+date01 <- debt$Date...2
+netlending <- debt$`Percent of GDP...3`
+ggplot(debt, aes(x = date01, y = netlending)) +
+  geom_line(color = "blue") +
+  labs(title = "Generel offentlig udlån/låntagning for Tyskland (netto)",
+       x = "År",
+       y = "Procent af BNP") +
+  theme_minimal() + theme(plot.title = element_text(hjust = 0.5)) + 
+  geom_abline(aes(intercept=0, slope=0))
+```
+
+```{r}
+date02 <- debt$Date...8
+grossdebt <- debt$`Percent of GDP...9`
+ggplot(debt, aes(x = date02, y = grossdebt)) +
+  geom_line(color = "blue") +
+  labs(title = "Generel offentlig gæld (total)",
+       x = "År",
+       y = "Procent af BNP") +
+  theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r}
@@ -25,5 +49,3 @@ grid()
 plot(date2, projection2, type = "l", main = "Projection of government gross debt for Germany ", ylab = "Percent of GDP", xlab = "Årstal", col="red")
 grid()
 ```
-
-Mac er det bedste lort i verden 
