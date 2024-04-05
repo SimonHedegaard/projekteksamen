@@ -3,7 +3,7 @@ name: Update Excel Data
 on:
   push:
     branches:
-      - main  # Or specify the branch you want to trigger this action
+      - main
 
 jobs:
   update_data:
