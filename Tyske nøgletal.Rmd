@@ -4,3 +4,25 @@ output: html_document
 date: "2024-04-05"
 ---
 
+```{r}
+library(readxl)
+DataTyskland <- read_excel("DataTyskland.xlsx")
+```
+
+```{r}
+GDP_pct_change<-DataTyskland$gdp_pct_change
+```
+
+```{r}
+# Konverter datoer til korrekt format
+DataTyskland$Date <- as.Date(DataTyskland$Date)
+
+# Opret ggplot-objekt og plot grafen
+ggplot(DataTyskland, aes(x = Date, y = GDP_pct_change)) +
+  geom_line(color = "blue") +
+  labs(title = "Tysklands BNP Procentvis Ændring (Kvartalsvis)",
+       x = "ÅR",
+       y = "Procentvis Ændring") +
+  theme_minimal()
+```
+
