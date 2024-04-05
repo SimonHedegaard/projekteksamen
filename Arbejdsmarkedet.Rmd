@@ -18,15 +18,16 @@ library(tidyr)
 library(dplyr)
 library(readr)
 lafo <- read_excel("Makroøkonomisk projekt.xlsx", sheet="Labor force")
-yr <- lafo$Year
-sz <- lafo$`Labor Force size`
+yr <- lafo$Year; sz <- lafo$`Labor Force size`
 df <- data.frame(lafo$Year, lafo$`Labor Force size`)
+br <- lafo$Branche; ma <- lafo$Mangel
+vi <- lafo$Virksomhed; pct <- lafo$Pct
 ```
 
 
 ```{r}
 ggplot(df, aes(x = yr, y = sz), ylim=c(35000000,55000000)) +
-  geom_line(aes(group=1), col="lightgreen")+
+  geom_line(aes(group=1), col="blue")+
   scale_x_discrete(breaks=seq(min(yr), max(yr), by=2))+
   scale_y_continuous(labels = function(x) paste0(x/1000000, " million"))+
   labs(x = "Årstal", y = "Arbejdsstyrken i personer") +
@@ -34,6 +35,9 @@ ggplot(df, aes(x = yr, y = sz), ylim=c(35000000,55000000)) +
 ```
 
 ```{r}
-
+ggplot(lafo, aes(x=br, y=ma))+
+  geom_bar(stat="identity", fill="blue")+
+  labs(x="Branche", y="Mangel i personer")+ 
+  theme_minimal()
 ```
 
