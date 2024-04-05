@@ -13,10 +13,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install R
-      run:
-        sudo apt-get update
-        sudo apt-get install -y r-base
+    - name: Set up Docker
+      uses: actions/setup-docker@v2
+      with:
+        dockerfile: |
+          FROM rocker/r-ver:4.3.3
 
     - name: Install required R packages
       run: |
