@@ -21,8 +21,8 @@ DataTyskland$Date <- as.Date(DataTyskland$Date)
 ggplot(DataTyskland, aes(x = Date, y = GDP_pct_change)) +
   geom_line(color = "blue") +
   labs(title = "Tysklands BNP Procentvis Ændring (Kvartalsvis)",
-       x = "ÅR",
+       x = "År",
        y = "Procentvis Ændring") +
-  theme_minimal()
+  theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
 ```
 
