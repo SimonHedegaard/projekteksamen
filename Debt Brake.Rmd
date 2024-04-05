@@ -13,30 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 debt <- read_excel("Makroøkonomisk projekt.xlsx", sheet = "Debt ")
 na.omit(debt)
-debt 
-```
-
-```{r}
-date01 <- debt$Date...2
-netlending <- debt$`Percent of GDP...3`
-ggplot(debt, aes(x = date01, y = netlending)) +
-  geom_line(color = "blue") +
-  labs(
-       x = "År",
-       y = "Procent af BNP") +
-  theme_minimal() + theme(plot.title = element_text(hjust = 0.5)) + 
-  geom_abline(aes(intercept=0, slope=0))
-```
-
-```{r}
-date02 <- debt$Date...8
-grossdebt <- debt$`Percent of GDP...9`
-ggplot(debt, aes(x = date02, y = grossdebt)) +
-  geom_line(color = "blue") +
-  labs(
-       x = "År",
-       y = "Procent af BNP") +
-  theme_minimal()
 ```
 
 
@@ -45,16 +21,8 @@ date1 <- debt$Date...5
 projectionbudget1 <- debt$`Percent of GDP...6`
 date2 <- debt$Date...11
 projection2 <- debt$`Percent of GDP...12`
-ggplot(debt, aes(x = date1, y = projectionbudget1)) +
-  geom_line(color = "blue") +
-  labs(
-       x = "År",
-       y = "Procent af BNP") +
-  theme_minimal()
-ggplot(debt, aes(x = date2, y = projection2)) +
-  geom_line(color = "blue") +
-  labs(
-       x = "År",
-       y = "Procent af BNP") +
-  theme_minimal()
+plot(date1, projectionbudget1, type = "l", main = "Projection for net lending/borrowing", ylab = "Percent of GDP", xlab = "Årstal", col="red")
+grid()
+plot(date2, projection2, type = "l", main = "Projection of government gross debt for Germany ", ylab = "Percent of GDP", xlab = "Årstal", col="red")
+grid()
 ```
