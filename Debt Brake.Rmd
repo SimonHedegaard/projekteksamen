@@ -22,5 +22,5 @@ projection2 <- debt$`Percent of GDP...12`
 plot(date1, projectionbudget1, type = "l", main = "Projection for net lending/borrowing", ylab = "Percent of GDP", xlab = "Årstal", col="red")
 grid()
 plot(date2, projection2, type = "l", main = "Projection of government gross debt for Germany ", ylab = "Percent of GDP", xlab = "Årstal", col="red")
-grid()
+grid() /
 ```
