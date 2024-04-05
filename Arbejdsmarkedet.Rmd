@@ -20,12 +20,13 @@ library(readr)
 lafo <- read_excel("Makroøkonomisk projekt.xlsx", sheet="Labor force")
 yr <- lafo$Year
 sz <- lafo$`Labor Force size`
+df <- data.frame(lafo$Year, lafo$`Labor Force size`)
 ```
 
 
 ```{r}
-ggplot(lafo, aes(x = yr, y = sz), ylim=c(35000000,55000000)) +
-  geom_line()
+ggplot(df, aes(x = yr, y = sz), ylim=c(35000000,55000000)) +
+  geom_line(aes(group=1))
   geom_point() 
   labs(x = "Årstal", y = "Arbejdsstyrken i personer", title = "Arbejdsstyrkens størrelse") +
   theme_minimal()
