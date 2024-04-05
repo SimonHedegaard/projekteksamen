@@ -13,17 +13,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install Docker (if needed)
-      run: |
+    - name: Install R and required packages
+       run: |
         sudo apt-get update
-        sudo apt-get install -y docker.io
-
-    - name: Set up Docker container
-      run: |
-        docker pull rocker/r-ver:4.3.3
-        docker run --rm -v $(pwd):/app -w /app rocker/r-ver:4.3.3 Rscript -e "install.packages('readxl')"
-        docker run --rm -v $(pwd):/app -w /app rocker/r-ver:4.3.3 Rscript -e "install.packages('httr')"
-        docker run --rm -v $(pwd):/app -w /app rocker/r-ver:4.3.3 Rscript -e "install.packages('RCurl')"
+        sudo apt-get install -y r-base
+        R -e "install.packages(c('readxl', 'httr', 'RCurl'), repos='http://cran.rstudio.com/')"
 
     - name: Download Excel file from OneDrive
       run: |
