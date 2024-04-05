@@ -29,7 +29,7 @@ DataTyskland$Date <- as.Date(DataTyskland$Date)
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = GDP_pct_change)) +
   geom_line(color = "blue") +
-  labs(title = "Tysklands BNP Procentvis Ændring (Kvartalsvis)",
+  labs(title = "",
        x = "År",
        y = "%") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
@@ -40,7 +40,7 @@ ggplot(DataTyskland, aes(x = Date, y = GDP_pct_change)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = Unemployment)) +
   geom_line(color = "blue") +
-  labs(title = "Tysklands arbejdsløshed i pct.",
+  labs(title = "",
        x = "År",
        y = "%") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
@@ -51,7 +51,7 @@ ggplot(DataTyskland, aes(x = Date, y = Unemployment)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = HPI)) +
   geom_line(color = "blue") +
-  labs(title = "HPI pct. ændring fra året før",
+  labs(title = "",
        x = "År",
        y = "%") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
@@ -62,7 +62,7 @@ ggplot(DataTyskland, aes(x = Date, y = HPI)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = Rente)) +
   geom_line(color = "blue") +
-  labs(title = "Tysklands rente (10-årig statsobligation)",
+  labs(title = "",
        x = "År",
        y = "%") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
@@ -72,7 +72,7 @@ ggplot(DataTyskland, aes(x = Date, y = Rente)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = Eksport)) +
   geom_line(color = "blue") +
-  labs(title = "Ændring i eksport i pct. fra året før",
+  labs(title = "",
        x = "År",
        y = "%") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
@@ -83,7 +83,7 @@ ggplot(DataTyskland, aes(x = Date, y = Eksport)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = Import)) +
   geom_line(color = "blue") +
-  labs(title = "Ændring i import i pct. fra året før",
+  labs(title = "",
        x = "År",
        y = "%") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
@@ -94,7 +94,7 @@ ggplot(DataTyskland, aes(x = Date, y = Import)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = arbejdskraftenhedsomkostninger)) +
   geom_line(color = "blue") +
-  labs(title = "Arbejdskraftenhedsomkostninger",
+  labs(title = "",
        x = "År",
        y = "EUR") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
@@ -105,7 +105,7 @@ ggplot(DataTyskland, aes(x = Date, y = arbejdskraftenhedsomkostninger)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = valutakurs)) +
   geom_line(color = "blue") +
-  labs(title = "1 euro til US dollar",
+  labs(title = "",
        x = "År",
        y = "US dollar") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
