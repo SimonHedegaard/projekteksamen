@@ -8,4 +8,25 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-HAHAHHAHAHAHAHAHHAHAHA
+Balance Of Payments Tyskland
+
+```{r}
+library(readr)
+
+```
+
+```{r}
+# Load the pdftools library
+library(pdftools)
+
+# Provide the path to the PDF file
+pdf_path <- "https://www.bundesbank.de/resource/blob/640884/156d1434a297f961445f416c15a0a7cf/mL/sdds-auslandsvermoegen-quartal-data.pdf"
+
+# Extract text from the PDF
+pdf_text <- pdf_text(pdf_path)
+
+# Print the extracted text
+print(pdf_text)
+
+```
+
