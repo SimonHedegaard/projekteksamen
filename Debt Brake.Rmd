@@ -39,6 +39,7 @@ ggplot(debt, aes(x = date02, y = grossdebt)) +
   theme_minimal()
 ```
 
+
 ```{r}
 date1 <- debt$Date...5
 projectionbudget1 <- debt$`Percent of GDP...6`
