@@ -26,11 +26,14 @@ df <- data.frame(lafo$Year, lafo$`Labor Force size`)
 
 ```{r}
 ggplot(df, aes(x = yr, y = sz), ylim=c(35000000,55000000)) +
-  geom_line(aes(group=1))+
-  geom_point() +
+  geom_line(aes(group=1), col="lightgreen")+
   scale_x_discrete(breaks=seq(min(yr), max(yr), by=2))+
   scale_y_continuous(labels = function(x) paste0(x/1000000, " million"))+
-  labs(x = "Årstal", y = "Arbejdsstyrken i personer", title = "Arbejdsstyrkens størrelse") +
+  labs(x = "Årstal", y = "Arbejdsstyrken i personer") +
   theme_minimal()
+```
+
+```{r}
+
 ```
 
