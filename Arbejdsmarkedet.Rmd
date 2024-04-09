@@ -21,7 +21,7 @@ lafo <- read_excel("Makroøkonomisk projekt.xlsx", sheet="Labor force")
 yr <- lafo$Year; sz <- lafo$`Labor Force size`
 df <- data.frame(lafo$Year, lafo$`Labor Force size`)
 br <- lafo$Branche; ma <- lafo$Mangel
-vi <- lafo$Virksomhed; pct <- lafo$Pct
+vi <- lafo$Branche2; pct <- lafo$Pct2
 ```
 
 
@@ -38,6 +38,15 @@ ggplot(df, aes(x = yr, y = sz), ylim=c(35000000,55000000)) +
 ggplot(lafo, aes(x=br, y=ma))+
   geom_bar(stat="identity", fill="blue")+
   labs(x="Branche", y="Mangel i personer")+ 
+  theme_minimal()
+```
+
+
+Virksomheder der oplever mangel på arbejdskraft
+```{r}
+ggplot(lafo, aes(x=vi, y=pct))+
+  geom_bar(stat="identity", fill="blue")+
+  labs(x="Industri", y="Pct. af virksomheder")+ 
   theme_minimal()
 ```
 
