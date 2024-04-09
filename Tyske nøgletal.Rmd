@@ -20,6 +20,7 @@ Eksport<-DataTyskland$`Real Export - % change from year ago`
 Import<-DataTyskland$`Real Import - % change from year ago`
 arbejdskraftenhedsomkostninger<-DataTyskland$`ULC pct change previous period`
 valutakurs<-DataTyskland$`exchange rate 1 EUR to USD`
+produktivitet<-DataTyskland$`Productivity output per hour worked (mining and manufacturing)`
 ```
 
 ```{r}
@@ -110,4 +111,26 @@ ggplot(DataTyskland, aes(x = Date, y = valutakurs)) +
        y = "US dollar") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
 ```
+
+
+```{r}
+# Opret ggplot-objekt og plot grafen
+ggplot(DataTyskland, aes(x = Date, y = produktivitet)) +
+  geom_line(color = "blue") +
+  labs(title = "",
+       x = "År",
+       y = "US dollar") +
+  theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
+```
+```
+
+
+
+
+
+
+
+
+
+
 
