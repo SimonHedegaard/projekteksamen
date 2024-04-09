@@ -29,14 +29,18 @@ ggplot(debt, aes(x = date01, y = netlending)) +
 ```
 
 ```{r}
-date02 <- debt$Date...8
-grossdebt <- debt$`Percent of GDP...9`
-ggplot(debt, aes(x = date02, y = grossdebt)) +
-  geom_line(color = "blue") +
-  labs(
+ggplot(debt, aes(x = date01)) +
+  geom_line(aes(y = debt$`Percent of GDP...9`, color = "Tyskland"), linetype = "solid") +
+  geom_line(aes(y = debt$`Percent of GDP...15`, color = "EU"), linetype = "solid") + # Tilføjelse af linje for enhedslønomkostninger
+  labs(title = "",
        x = "År",
-       y = "Procent af BNP") +
-  theme_minimal()
+       y = "Pct. af BNP") +
+  scale_color_manual(values = c("Tyskland" = "blue", "EU" = "red")) +  # Justér farverne efter behov
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(legend.position=c("top")) +
+  labs(color = "Variable") +
+  guides(color = guide_legend(title = NULL))
 ```
 
 ```{r}
