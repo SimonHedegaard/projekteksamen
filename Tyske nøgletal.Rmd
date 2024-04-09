@@ -126,7 +126,7 @@ ggplot(DataTyskland, aes(x = Date, y = produktivitet)) +
 ```{r}
 ggplot(DataTyskland, aes(x = Date)) +
   geom_line(aes(y = GDP_pct_change, color = "BNP pct ændring"), linetype = "solid") +
-  geom_line(aes(y = arbejdskraftenhedsomkostninger, color = "Enhedslønomkostninger pct ændring"), linetype = "solid") + # Tilføjelse af linje for enhedslønomkostninger
+  geom_line(aes(y = arbejdskraftenhedsomkostninger, color = "Enhedslønomkostninger pct ændring"), linetype = "solid")+ # Tilføjelse af linje for enhedslønomkostninger
   labs(title = "",
        x = "År",
        y = "%") +
@@ -144,7 +144,7 @@ ggplot(DataTyskland, aes(x = Date)) +
 ```{r}
 bnp3 <- GDP_pct_change[1:95]
 prod3<- arbejdskraftenhedsomkostninger[1:95]
-cor(bnp3, prod3)
+correlation<-cor(bnp3, prod3)
 ```
 
 
