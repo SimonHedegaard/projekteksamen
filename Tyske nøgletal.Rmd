@@ -20,7 +20,7 @@ Eksport<-DataTyskland$`Real Export - % change from year ago`
 Import<-DataTyskland$`Real Import - % change from year ago`
 arbejdskraftenhedsomkostninger<-DataTyskland$`ULC pct change previous period`
 valutakurs<-DataTyskland$`exchange rate 1 EUR to USD`
-produktivitet<-DataTyskland$`Productivity output per hour worked (mining and manufacturing)`
+Produktivitet<-DataTyskland$`Productivity output per hour worked (mining and manufacturing)`
 ```
 
 ```{r}
@@ -119,10 +119,37 @@ ggplot(DataTyskland, aes(x = Date, y = produktivitet)) +
   geom_line(color = "blue") +
   labs(title = "",
        x = "År",
-       y = "US dollar") +
+       y = "Output pr. hour worked") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
 ```
+
+```{r}
+library(ggplot2)
+
+# Opret ggplot-objektet med de to linjediagrammer
+combined_plot <- ggplot(DataTyskland, aes(x = Date)) +
+  
+  # Første linjediagram for eksport med venstre y-akse
+  geom_line(aes(y = Eksport, color = "Eksport")) +
+  
+  # Andet linjediagram for produktivitet med højre y-akse
+  geom_line(aes(y = Produktivitet * 100, color = "Produktivitet")) +
+  
+  # Juster farver og temaer efter behov
+  scale_color_manual(values = c("Eksport" = "blue", "Produktivitet" = "red")) +
+  labs(title = "Eksport og Produktivitet over tid",
+       x = "År",
+       y = "Eksport",
+       color = "Variabel") +
+  theme_minimal() +
+  
+  # Tilføj en ekstra y-akse for produktivitet
+  scale_y_continuous(sec.axis = sec_axis(~./100, name = "Produktivitet"))
+
+# Vis den kombinerede graf
+print(combined_plot)
 ```
+
 
 
 
