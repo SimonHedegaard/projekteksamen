@@ -11,22 +11,117 @@ knitr::opts_chunk$set(echo = TRUE)
 Balance Of Payments Tyskland
 
 ```{r}
-library(readr)
+library(readxl)
+BOP <- read_excel("Balance of Payments Tyskland.xlsx", 
+    sheet = "Current Account")
+View(BOP)
+```
+
+
+
+```{r}
+Balance <- data.frame(BOP$`Goods Balance`, BOP$`Services Balance`, BOP$`Primary income Balance`, BOP$`Secondary income Balance`, BOP$`Balance of current account`)
+```
+
+
+```{r}
+# Assuming your data frame is named Balance
+
+# Compute correlation matrix
+correlation_matrix <- cor(Balance)
+
+# Load required library
+library(ggplot2)
+
+# Create a ggplot object for heatmap
+heatmap <- ggplot(data = reshape2::melt(correlation_matrix), aes(Var1, Var2, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0, name="Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1)) +
+  labs(title = "Correlation Heatmap", x = "", y = "") +
+  theme(plot.title = element_text(size = 20, face = "bold"),
+        legend.title = element_text(size = 15),
+        legend.text = element_text(size = 12))
+
+# Print the plot
+print(heatmap)
+
+```
+
+
+
+
+
+
+
+
+```{r}
+# Assuming your data frame is named df with columns: Year, Variable1, Variable2, Variable3, Variable4, Variable5
+
+# Convert Year to a numeric format
+df$Year <- as.numeric(BOP$Year)
+
+# Load required library
+library(ggplot2)
+
+# Create line plot
+ggplot(df, aes(x = Year)) +
+  geom_line(aes(y = Goods Balance, color = "Goods Balance")) +
+  geom_line(aes(y = Variable2, color = "Variable2")) +
+  geom_line(aes(y = Variable3, color = "Variable3")) +
+  geom_line(aes(y = Variable4, color = "Variable4")) +
+  geom_line(aes(y = Variable5, color = "Variable5")) +
+  labs(title = "Trends of Five Variables over Time",
+       x = "Year",
+       y = "Value") +
+  scale_color_manual(values = c("Variable1" = "red",
+                                 "Variable2" = "blue",
+                                 "Variable3" = "green",
+                                 "Variable4" = "orange",
+                                 "Variable5" = "purple")) +
+  theme_minimal()
+
+```
+
+
+
+
+
+```{r}
+library(readxl)
+BOP1 <- read_excel("Balance of Payments Tyskland.xlsx", 
+    sheet = "Financial acc and Capital acc")
+View(BOP1)
 
 ```
 
 ```{r}
-# Load the pdftools library
-library(pdftools)
+Balance1 <- data.frame(BOP$`Goods Balance`, BOP$`Services Balance`, BOP$`Primary income Balance`, BOP$`Secondary income Balance`, BOP$`Balance of current account`, BOP1$`Balance of capital account`, BOP1$`Net direct Investment (Financial account)`, BOP1$`Net financial account`)
+```
 
-# Provide the path to the PDF file
-pdf_path <- "https://www.bundesbank.de/resource/blob/640884/156d1434a297f961445f416c15a0a7cf/mL/sdds-auslandsvermoegen-quartal-data.pdf"
+```{r}
+# Assuming your data frame is named Balance
 
-# Extract text from the PDF
-pdf_text <- pdf_text(pdf_path)
+# Compute correlation matrix
+correlation_matrix1 <- cor(Balance1)
 
-# Print the extracted text
-print(pdf_text)
+# Load required library
+library(ggplot2)
+
+# Create a ggplot object for heatmap
+heatmap <- ggplot(data = reshape2::melt(correlation_matrix1), aes(Var1, Var2, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0, name="Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1)) +
+  labs(title = "Correlation Heatmap", x = "", y = "") +
+  theme(plot.title = element_text(size = 20, face = "bold"),
+        legend.title = element_text(size = 15),
+        legend.text = element_text(size = 12))
+
+# Print the plot
+print(heatmap)
 
 ```
 
