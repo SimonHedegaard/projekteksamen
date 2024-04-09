@@ -132,8 +132,10 @@ ggplot(DataTyskland, aes(x = Date)) +
        y = "%") +
   scale_color_manual(values = c("BNP pct ændring" = "blue", "Enhedslønomkostninger pct ændring" = "red")) +  # Justér farverne efter behov
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5))
-cor(GDP_pct_change, arbejdskraftenhedsomkostninger)
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(legend.position=c("top")) +
+  labs(color = "Variable") +
+  guides(color = guide_legend(title = NULL))
 ```
 
 
