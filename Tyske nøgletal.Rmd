@@ -145,6 +145,7 @@ ggplot(DataTyskland, aes(x = Date)) +
 bnp3 <- GDP_pct_change[1:95]
 prod3<- arbejdskraftenhedsomkostninger[1:95]
 correlation<-cor(bnp3, prod3)
+correlation
 ```
 
 
