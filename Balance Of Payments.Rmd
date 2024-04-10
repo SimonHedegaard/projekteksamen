@@ -125,3 +125,65 @@ print(heatmap)
 
 ```
 
+
+
+
+CHart of the subbalances of the balance of payments
+
+```{r}
+Balancesub <- data.frame(BOP$`Goods Balance`, BOP$`Services Balance`, BOP$`Primary income Balance`, BOP$`Secondary income Balance`, BOP$`Balance of current account`, BOP1$`Balance of capital account`, BOP1$`Net financial account`)
+```
+
+
+```{r}
+# Choose base year
+base_year <- 2000
+
+# Calculate index for each variable
+Balancesub$BOP..Goods.Balance. <- (Balancesub$BOP..Goods.Balance./ Balancesub$BOP..Goods.Balance.[base_year - 1999]) * 100
+
+Balancesub$BOP..Services.Balance. <- (Balancesub$BOP..Services.Balance. / Balancesub$BOP..Services.Balance.[base_year - 1999]) * -100
+
+Balancesub$BOP..Primary.income.Balance. <- (Balancesub$BOP..Primary.income.Balance. / Balancesub$BOP..Primary.income.Balance.[base_year - 1999]) * -100
+
+Balancesub$BOP..Secondary.income.Balance.<- (Balancesub$BOP..Secondary.income.Balance / Balancesub$BOP..Secondary.income.Balance[base_year - 1999]) * -100
+
+Balancesub$BOP..Balance.of.current.account. <- (Balancesub$BOP..Balance.of.current.account. / Balancesub$BOP..Balance.of.current.account.[base_year - 1999]) * -100
+
+Balancesub$BOP1..Balance.of.capital.account. <- (Balancesub$BOP1..Balance.of.capital.account. / Balancesub$BOP1..Balance.of.capital.account.[base_year - 1999]) * 100
+
+Balancesub$BOP1..Net.financial.account. <- (Balancesub$BOP1..Net.financial.account. / Balancesub$BOP1..Net.financial.account.[base_year - 1999]) * -100
+
+# Print the first few rows of the data frame with the index columns
+head(Balancesub)
+```
+
+```{r}
+Years <- BOP$Period
+# Load required libraries
+library(ggplot2)
+
+# Plotting index values against years
+ggplot(Balancesub, aes(x = Years)) +
+  geom_line(aes(y = BOP..Goods.Balance., color = "Goods Balance")) +
+  geom_line(aes(y = BOP..Services.Balance., color = "Services Balance")) +
+  geom_line(aes(y = BOP..Primary.income.Balance., color = "Primary Income Balance")) +
+  geom_line(aes(y = BOP..Secondary.income.Balance., color = "Secondary Income Balance")) +
+  geom_line(aes(y = BOP..Balance.of.current.account., color = "Balance of Current Account")) +
+  geom_line(aes(y = BOP1..Balance.of.capital.account., color = "Balance of Capital Account")) +
+  geom_line(aes(y = BOP1..Net.financial.account., color = "Net Financial Account")) +
+  labs(title = "Index Values of Balances Over Time",
+       x = "Year",
+       y = "Index Value",
+       color = "Variable") +
+  scale_color_manual(values = c("Goods Balance" = "blue",
+                                 "Services Balance" = "red",
+                                 "Primary Income Balance" = "green",
+                                 "Secondary Income Balance" = "purple",
+                                 "Balance of Current Account" = "orange",
+                                 "Balance of Capital Account" = "yellow",
+                                 "Net Financial Account" = "brown")) +
+  theme_minimal()
+
+```
+
