@@ -11,20 +11,81 @@ knitr::opts_chunk$set(echo = TRUE)
 Balance Of Payments Tyskland
 
 ```{r}
+rm(list=ls(all=T))
 library(readxl)
 BOP <- read_excel("Balance of Payments Tyskland.xlsx", 
     sheet = "Current Account")
-View(BOP)
+View()
+library(readxl)
+BOP1 <- read_excel("Balance of Payments Tyskland.xlsx", 
+    sheet = "Financial acc and Capital acc")
+View((BOP1))
+```
+```{r}
+handelsbalance <- BOP$`Goods Balance`+BOP$`Services Balance`
 ```
 
 
 
 ```{r}
-Balance <- data.frame(BOP$`Goods Balance`, BOP$`Services Balance`, BOP$`Primary income Balance`, BOP$`Secondary income Balance`, BOP$`Balance of current account`)
+Balance <- data.frame(BOP$`Goods Balance`, BOP$`Services Balance`,handelsbalance, BOP$`Primary income Balance`, BOP$`Secondary income Balance`, BOP$`Balance of current account`)
 ```
 
 
 ```{r}
+Years <- BOP$Period
+
+library(ggplot2)
+
+ggplot(Balance, aes(x = Years)) +
+  geom_line(aes(y = BOP..Goods.Balance., color = "Goods Balance")) +
+  geom_line(aes(y = BOP..Services.Balance., color = "Services Balance")) +
+  geom_line(aes(y = handelsbalance, color = "Handelsbalance"))+
+  geom_line(aes(y = BOP..Primary.income.Balance., color = "Primary Income Balance")) +
+  geom_line(aes(y = BOP..Secondary.income.Balance., color = "Secondary Income Balance")) +
+  geom_line(aes(y = BOP..Balance.of.current.account., color = "Balance of Current Account")) +
+  labs(title = "Betalingsbalance løbende poster. 2000-2023",
+       x = "Year",
+       y = "€ milions",
+       color = "Variable") +
+  scale_color_manual(values = c("Goods Balance" = "blue",
+                                 "Services Balance" = "red",
+                                 "Handelsbalance" = "black",
+                                 "Primary Income Balance" = "green",
+                                 "Secondary Income Balance" = "purple",
+                                 "Balance of Current Account" = "orange"))+ scale_y_continuous(breaks = seq(-100000, 350000, by = 25000), labels = scales::comma_format())+ theme_minimal()
+```
+```{r}
+#Balance of payments summen
+BOP$`Balance of current account`-BOP1$`Balance of capital account`-BOP1$`Net financial account`
+```
+
+
+```{r}
+cor(Balance)
+```
+
+```{r}
+# Load required libraries
+library(ggplot2)
+
+# Compute correlation matrix for all variables in the dataframe Balance
+correlation_matrix <- cor(Balance, method = "pearson")
+
+# Plot correlation matrix as a heatmap
+ggplot(data = as.data.frame(correlation_matrix), aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient(low = "blue", high = "red") +  # Adjust colors as needed
+  labs(title = "Correlation Matrix", x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+```
+
+
+```{r}
+
 # Assuming your data frame is named Balance
 
 # Compute correlation matrix
@@ -54,35 +115,6 @@ print(heatmap)
 
 
 
-
-
-```{r}
-# Assuming your data frame is named df with columns: Year, Variable1, Variable2, Variable3, Variable4, Variable5
-
-# Convert Year to a numeric format
-df$Year <- as.numeric(BOP$Year)
-
-# Load required library
-library(ggplot2)
-
-# Create line plot
-ggplot(df, aes(x = Year)) +
-  geom_line(aes(y = Goods Balance, color = "Goods Balance")) +
-  geom_line(aes(y = Variable2, color = "Variable2")) +
-  geom_line(aes(y = Variable3, color = "Variable3")) +
-  geom_line(aes(y = Variable4, color = "Variable4")) +
-  geom_line(aes(y = Variable5, color = "Variable5")) +
-  labs(title = "Trends of Five Variables over Time",
-       x = "Year",
-       y = "Value") +
-  scale_color_manual(values = c("Variable1" = "red",
-                                 "Variable2" = "blue",
-                                 "Variable3" = "green",
-                                 "Variable4" = "orange",
-                                 "Variable5" = "purple")) +
-  theme_minimal()
-
-```
 
 
 
@@ -128,7 +160,22 @@ print(heatmap)
 
 
 
-CHart of the subbalances of the balance of payments
+
+
+-------------------------------------------------
+
+CHart of the subbalances of the balance of payments  and index
+
+```{r}
+rm(list=ls(all=T))
+library(readxl)
+BOP <- read_excel("Balance of Payments Tyskland.xlsx", 
+    sheet = "Current Account")
+library(readxl)
+BOP1 <- read_excel("Balance of Payments Tyskland.xlsx", 
+    sheet = "Financial acc and Capital acc")
+```
+
 
 ```{r}
 Balancesub <- data.frame(BOP$`Goods Balance`, BOP$`Services Balance`, BOP$`Primary income Balance`, BOP$`Secondary income Balance`, BOP$`Balance of current account`, BOP1$`Balance of capital account`, BOP1$`Net financial account`)
@@ -142,17 +189,17 @@ base_year <- 2000
 # Calculate index for each variable
 Balancesub$BOP..Goods.Balance. <- (Balancesub$BOP..Goods.Balance./ Balancesub$BOP..Goods.Balance.[base_year - 1999]) * 100
 
-Balancesub$BOP..Services.Balance. <- (Balancesub$BOP..Services.Balance. / Balancesub$BOP..Services.Balance.[base_year - 1999]) * -100
+Balancesub$BOP..Services.Balance. <- (Balancesub$BOP..Services.Balance. / Balancesub$BOP..Services.Balance.[base_year - 1999]) * 100
 
-Balancesub$BOP..Primary.income.Balance. <- (Balancesub$BOP..Primary.income.Balance. / Balancesub$BOP..Primary.income.Balance.[base_year - 1999]) * -100
+Balancesub$BOP..Primary.income.Balance. <- (Balancesub$BOP..Primary.income.Balance. / Balancesub$BOP..Primary.income.Balance.[base_year - 1999]) * 100
 
-Balancesub$BOP..Secondary.income.Balance.<- (Balancesub$BOP..Secondary.income.Balance / Balancesub$BOP..Secondary.income.Balance[base_year - 1999]) * -100
+Balancesub$BOP..Secondary.income.Balance.<- (Balancesub$BOP..Secondary.income.Balance / Balancesub$BOP..Secondary.income.Balance[base_year - 1999]) * 100
 
-Balancesub$BOP..Balance.of.current.account. <- (Balancesub$BOP..Balance.of.current.account. / Balancesub$BOP..Balance.of.current.account.[base_year - 1999]) * -100
+Balancesub$BOP..Balance.of.current.account. <- (Balancesub$BOP..Balance.of.current.account. / Balancesub$BOP..Balance.of.current.account.[base_year - 1999]) * 100
 
 Balancesub$BOP1..Balance.of.capital.account. <- (Balancesub$BOP1..Balance.of.capital.account. / Balancesub$BOP1..Balance.of.capital.account.[base_year - 1999]) * 100
 
-Balancesub$BOP1..Net.financial.account. <- (Balancesub$BOP1..Net.financial.account. / Balancesub$BOP1..Net.financial.account.[base_year - 1999]) * -100
+Balancesub$BOP1..Net.financial.account. <- (Balancesub$BOP1..Net.financial.account. / Balancesub$BOP1..Net.financial.account.[base_year - 1999]) * 100
 
 # Print the first few rows of the data frame with the index columns
 head(Balancesub)
