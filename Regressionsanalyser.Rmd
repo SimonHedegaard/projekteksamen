@@ -7,10 +7,39 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(dynlm)
+library(lmtest)
+library(dplyr)
+data <- read_excel("Makroøkonomisk projekt.xlsx")
+gdp <- data$gdp_pct_change; china <- data$`China: Real GDP growth quarterly previous period (National Bureau of Statistics of China)`; unemp <- data$unemp; exp <- data$`Real Exports of Goods and Services for Germany, Percent Change, Quarterly, Seasonally Adjusted`
+inf <- data$`HPI: growth same period previous year`; rente <- data$`Interest Rate (10-year Goverment Bond Yields)`; pri_con <- data$`Real private consumption: https://fred.stlouisfed.org/series/NAEXKP02DEQ657S`; gov_con <- data$`Germany Fiscal Expenditure EUR Billion.`; energy <- data$`Consumer Price Index: OECD Groups: Energy (Fuel, Electricity, and Gasoline): Total for Germany, Change, Growth rate same period previous year, Quarterly, Not Seasonally Adjusted`
+```
+
+Regressionsmodel for BNP
+```{r}
+mod <- lm(gdp~china+unemp+exp+gov_con_log+inf+rente+energy)
+summary(mod)
+bptest(mod)
+```
+```{r}
+plot(gdp, ylim=c(-15,15), type="l", col="blue")
+lines(exp, type="l", col="red")
+lines(100*gov_con_log[1:96], type="l", col="black")
+lines(energy, type="l", col="green")
+energy <- na.omit(energy)
+```
+Procentvis ændring for gov exp
+```{r}
+gov_con_log <- c(NA, diff(gov_con)/lag(gov_con))
+gov_con_log <- gov_con_log[2:97]
 ```
 
 
-```{r}
 
+Regressionsmodel for export
+```{r}
+reg_exp <- lm(exp[1:90] ~ china[1:90] + lag(energy[1:90], 2))
+summary(reg_exp)
 ```
 
