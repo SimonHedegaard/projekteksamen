@@ -13,13 +13,18 @@ library(lmtest)
 library(dplyr)
 data <- read_excel("Makroøkonomisk projekt.xlsx")
 gdp <- data$gdp_pct_change; china <- data$`China: Real GDP growth quarterly previous period (National Bureau of Statistics of China)`; unemp <- data$unemp; exp <- data$`Real Exports of Goods and Services for Germany, Percent Change, Quarterly, Seasonally Adjusted`
-inf <- data$`HPI: growth same period previous year`; rente <- data$`Interest Rate (10-year Goverment Bond Yields)`; pri_con <- data$`Real private consumption: https://fred.stlouisfed.org/series/NAEXKP02DEQ657S`; gov_con <- data$`Germany Fiscal Expenditure EUR Billion.`; energy <- data$`Consumer Price Index: OECD Groups: Energy (Fuel, Electricity, and Gasoline): Total for Germany, Change, Growth rate same period previous year, Quarterly, Not Seasonally Adjusted`
+inf <- data$`HPI: growth same period previous year`; rente <- data$`Interest Rate (10-year Goverment Bond Yields)`; pri_con <- data$`Real private consumption: https://fred.stlouisfed.org/series/NAEXKP02DEQ657S`; gov_con <- data$`Germany Fiscal Expenditure EUR Billion.`; energy <- data$`Consumer Price Index: OECD Groups: Energy (Fuel, Electricity, and Gasoline): Total for Germany, Change, Growth rate same period previous year, Quarterly, Not Seasonally Adjusted`; gdp_yearago<-data$`Real GDP percent year ago`; eurozone<-data$`Eurozonen: Real GDP growth quarterly previous period`
+fx<- gsub('"', '', data$`exchange rate 1 EUR to USD`)
+fx
+View(data)
 ```
 
 Regressionsmodel for BNP
 ```{r}
-mod <- lm(gdp~china+unemp+exp+gov_con_log+inf+rente+energy)
+mod <- lm(gdp_yearago~Export_pct_change_year_ago+inf+energy+rente+eurozone+unemp+fx)
 summary(mod)
+plot(mod, which=1)
+hist(residuals(mod))
 bptest(mod)
 ```
 ```{r}
@@ -42,4 +47,18 @@ Regressionsmodel for export
 reg_exp <- lm(exp[1:90] ~ china[1:90] + lag(energy[1:90], 2))
 summary(reg_exp)
 ```
+
+
+```{r}
+ # Libraries for dynamic lm, regression table and F tests
+library(dynlm);library(lmtest);library(car)
+data(data, package=’wooldridge’)# Define Yearly time series beginning in 1913
+tsdata <- ts(fertil3, start=1913) # Linear regression of model with lags:
+res <- dynlm(gfr ~ pe + L(pe) + L(pe,2) + ww2 + pill, data=tsdata)
+coeftest(res)
+```
+
+
+
+
 
