@@ -12,21 +12,30 @@ library(dynlm)
 library(lmtest)
 library(dplyr)
 data <- read_excel("Makroøkonomisk projekt.xlsx")
-gdp <- data$gdp_pct_change; china <- data$`China: Real GDP growth quarterly previous period (National Bureau of Statistics of China)`; unemp <- data$unemp; exp <- data$`Real Exports of Goods and Services for Germany, Percent Change, Quarterly, Seasonally Adjusted`
-inf <- data$`HPI: growth same period previous year`; rente <- data$`Interest Rate (10-year Goverment Bond Yields)`; pri_con <- data$`Real private consumption: https://fred.stlouisfed.org/series/NAEXKP02DEQ657S`; gov_con <- data$`Germany Fiscal Expenditure EUR Billion.`; energy <- data$`Consumer Price Index: OECD Groups: Energy (Fuel, Electricity, and Gasoline): Total for Germany, Change, Growth rate same period previous year, Quarterly, Not Seasonally Adjusted`; gdp_yearago<-data$`Real GDP percent year ago`; eurozone<-data$`Eurozonen: Real GDP growth quarterly previous period`
-fx<- gsub('"', '', data$`exchange rate 1 EUR to USD`)
-fx
-View(data)
+gdp <- data$gdp_pct_change
+china <- data$`China: Real GDP growth quarterly previous period (National Bureau of Statistics of China)`
+unemp <- data$unemp
+inf <- data$`HPI: growth same period previous year`
+pri_con <- data$`Real private consumption: https://fred.stlouisfed.org/series/NAEXKP02DEQ657S`
+energy <- data$`Consumer Price Index: OECD Groups: Energy (Fuel, Electricity, and Gasoline): Total for Germany, Change, Growth rate same period previous year, Quarterly, Not Seasonally Adjusted`
+gdp_yearago<-data$`Real GDP percent year ago`
+eurozone<-data$`Eurozonen: Real GDP growth quarterly previous period`
+fx<- data$`Exchange rate`
+exp <- data$`Real Export - % change from year ago`
+rente <- data$`Interest Rate (10-year Goverment Bond Yields)`
+G <- data$`Germany Fiscal Expenditure EUR Billion.`
 ```
 
 Regressionsmodel for BNP
 ```{r}
-mod <- lm(gdp_yearago~Export_pct_change_year_ago+inf+energy+rente+eurozone+unemp+fx)
-summary(mod)
-plot(mod, which=1)
+mod <- lm(gdp_yearago~exp+inf+lag(energy,4)+rente+eurozone+unemp)
+plot(mod, which=2)
 hist(residuals(mod))
 bptest(mod)
+summary(mod)
 ```
+
+
 ```{r}
 plot(gdp, ylim=c(-15,15), type="l", col="blue")
 lines(exp, type="l", col="red")
