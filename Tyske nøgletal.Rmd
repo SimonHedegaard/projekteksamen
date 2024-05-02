@@ -150,16 +150,6 @@ correlation
 
 
 
-```{r}
-reg<-lm(GDP_pct_change~unemployment_rate+Export_pct_change_year_ago+log(UnitLabourCost)+Import_pct_change_year_ago+log(Produktivitet)+lag(HPI_growth,1))
-summary(reg)
-```
-
-
-
-
-
-
 
 
 
