@@ -94,7 +94,9 @@ summary(mod_2000)
 ```{r}
 plot(mod_2000)
 ```
-
+#jarque.bera.test(regmodel$residuals)
+#shapiro.test(regmodel$resudials)
+#checkresiduals(regmodel$resudials)
 
 #Standard model 2000-2010
 ```{r}
