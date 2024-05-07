@@ -57,6 +57,12 @@ summary(nytforsøg)
 coeftest(nytforsøg, vcov=vcovHC(nytforsøg,type="HC0"))
 ```
 
+#Test om residualer er normalfordelt
+```{r}
+jarque.bera.test(nytforsøg$residuals)
+shapiro.test(nytforsøg$residuals)
+```
+
 
 #Fjerner outliers
 ```{r}
