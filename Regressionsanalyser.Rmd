@@ -4,18 +4,21 @@ author: ""
 date: "2024-04-12"
 output: html_document
 ---
-
+# Definér de forskellige variable
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 library(dynlm)
 library(lmtest)
 library(dplyr)
+library(texreg)
+library(sandwich)
+library(foreign)
 data <- read_excel("Makroøkonomisk projekt.xlsx")
 gdp <- data$gdp_pct_change
-china <- data$`China: Real GDP growth quarterly previous period (National Bureau of Statistics of China)`
+china <- data$`China gdp year ago`
 unemp <- data$unemp
-inf <- data$`HPI: growth same period previous year`
+inf <- data$`HCIP: growth same period previous year`
 pri_con <- data$`Real private consumption: https://fred.stlouisfed.org/series/NAEXKP02DEQ657S`
 energy <- data$`Consumer Price Index: OECD Groups: Energy (Fuel, Electricity, and Gasoline): Total for Germany, Change, Growth rate same period previous year, Quarterly, Not Seasonally Adjusted`
 gdp_yearago<-data$`Real GDP percent year ago`
@@ -31,49 +34,120 @@ USA<-data$`USA real gdp percent year ago`
 eurozone_pct_year<-data$`New eurozone gdp year ago`
 ```
 
-Regressionsmodel for BNP
+# Regressionsmodel for BNP
 ```{r}
 mod <- lm(gdp_yearago~exp+inf+lag(energy,4)+rente+unemp)
-plot(mod, which=1)
+plot(mod)
 hist(residuals(mod))
 bptest(mod)
 summary(mod)
 ```
 
-
-```{r}
-mod2 <- lm(gdp_yearago~exp+inf+lag(energy,4)+lag(rente,4)+eurozone+unemp+import+log(produktivitet)+ULC+fx)
-plot(mod, which=1)
-hist(residuals(mod))
-bptest(mod)
-summary(mod)
-```
-
-Model som godt kan bruges (mangler USA data og tjek eurozone skal være year ago)
-```{r}
-model_standard <- lm(gdp_yearago~exp+rente+lag(ULC,3)+eurozone+china)
-plot(model_standard, which=2)
-hist(residuals(model_standard))
-bptest(model_standard)
-summary(model_standard)
-```
-
-
-Argumentet for at vi undlader arbejdsløsheden
+# Argumentet for at vi undlader arbejdsløsheden
 ```{r}
 plot(unemp, type = "l", col = "blue", ylim = c(-10, 15),)
 lines(gdp_yearago)
 ```
 
 
-NYT FORSØG hvor vi finder ud af at det ikke giver mening med hverken inflation eller energy
+# NYT FORSØG hvor vi finder ud af at det ikke giver mening med hverken inflation eller energy. STANDARD MODEL med højde for robust standard errors
 ```{r}
-nytforsøg<-lm(gdp_yearago~exp+lag(rente,6)+lag(ULC,3)+lag(china,1)+lag(USA,1)+eurozone_pct_year)
+nytforsøg<-lm(gdp_yearago~exp+lag(rente,6)+lag(ULC,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+lag(inf,2)+lag(I(inf^2),2))
 summary(nytforsøg)
+coeftest(nytforsøg, vcov=vcovHC(nytforsøg,type="HC0"))
+```
+
+#Test om residualer er normalfordelt
+```{r}
+jarque.bera.test(nytforsøg$residuals)
+shapiro.test(nytforsøg$residuals)
 ```
 
 
-Forsøg med eksport som afhængig variabel
+#Fjerner outliers
+```{r}
+outliers <- c(83,84)
+data_clean <- data[-outliers,]
+gdp_clean <- data_clean$gdp_pct_change; exp_clean <- data_clean$`Real Export - % change from year ago`; rente_clean <- data_clean$`Interest Rate (10-year Goverment Bond Yields)`; ULC_clean <- data_clean$`ULC pct change previous period`; china_clean <- data_clean$`China gdp year ago`; USA_clean <- data_clean$`USA real gdp percent year ago`; euro_clean <- data_clean$`Eurozonen: Real GDP growth quarterly previous period`
+inf_clean <- data_clean$`HCIP: growth same period previous year`
+
+nytforsøg2 <- lm(gdp_clean ~ exp_clean + lag(rente_clean, 6) + lag(ULC_clean, 3) + lag(china_clean, 2) + lag(USA_clean, 1) + euro_clean +lag(inf_clean,2) + lag(I(inf_clean^2),2) )
+summary(nytforsøg2)
+plot(nytforsøg2)
+```
+
+#Forsøg med LAD
+```{r}
+library(quantreg); library(stargazer)
+rqmod <- rq(gdp_yearago~exp+lag(rente,6)+lag(ULC,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+lag(inf,2)+lag(I(inf^2),2) )
+stargazer(nytforsøg, rqmod, type="text")
+```
+
+
+# Korrelation for hhv. USA, Eurozonen og Kina
+```{r}
+cor(gdp_yearago[1:95], USA[1:95])
+cor(gdp_yearago[1:95], eurozone_pct_year[1:95])
+cor(china[1:95], gdp_yearago[1:95])
+```
+
+
+#Standard model: År 2000-2008
+```{r}
+mod_2000<-lm(gdp_yearago[1:33]~exp[1:33]+lag(rente[1:33],6)+lag(ULC[1:33],3)+lag(china[1:33],2)+lag(USA[1:33],1)+eurozone_pct_year[1:33]+lag(inf[1:33],2)+lag(I(inf[1:33]^2),2))
+summary(mod_2000)
+```
+```{r}
+plot(mod_2000)
+```
+#jarque.bera.test(regmodel$residuals)
+#shapiro.test(regmodel$resudials)
+#checkresiduals(regmodel$resudials)
+
+#Standard model 2000-2010
+```{r}
+mod_2000_2010<-lm(gdp_yearago[1:45]~exp[1:45]+lag(rente[1:45],6)+lag(ULC[1:45],3)+lag(china[1:45],2)+lag(USA[1:45],1)+eurozone_pct_year[1:45]+lag(inf[1:45],2)+lag(I(inf[1:45]^2),2))
+summary(mod_2000_2010)
+```
+
+
+
+#Standard model 2010-2019
+```{r}
+mod_2010<-lm(gdp_yearago[42:81]~exp[42:81]+lag(rente[42:81],6)+lag(ULC[42:81],3)+lag(china[42:81],2)+lag(USA[42:81],1)+eurozone_pct_year[42:81]+lag(inf[42:81],2)+lag(I(inf[42:81]^2),2))
+summary(mod_2010)
+```
+
+```{r}
+plot(mod_2010)
+```
+
+
+#Standard model for 2015Q1-2023Q3
+```{r}
+mod_2020<-lm(gdp_yearago[62:96]~exp[62:96]+lag(rente[62:96],6)+lag(ULC[62:96],3)+lag(china[62:96],2)+lag(USA[62:96],1)+eurozone_pct_year[62:96]+lag(inf[62:96],2)+lag(I(inf[62:96]^2),2))
+summary(mod_2020)
+```
+
+```{r}
+plot(mod_2020)
+```
+
+
+```{r}
+screenreg(list("Hele perioden"=nytforsøg, "2000-2008"=mod_2000, "2010-2019"=mod_2010, "2015-2023"=mod_2020))
+```
+
+
+```{r}
+plot(gdp_yearago, type="l", col="blue", ylim=c(-10,20))
+lines(USA, type="l", col="red")
+lines(china, type="l", col="green")
+```
+
+
+
+# Forsøg med eksport som afhængig variabel
 ```{r}
 reg_eksport<-lm(exp~ULC)
 summary(reg_eksport)
@@ -99,24 +173,8 @@ gov_con_log <- gov_con_log[2:97]
 
 Regressionsmodel for export
 ```{r}
-reg_exp <- lm(exp[1:90] ~ china[1:90] + lag(energy[1:90], 2))
+reg_exp <- lm(exp ~ china + lag(energy,2)+inf+eurozone_pct_year+USA+lag(produktivitet,4))
 summary(reg_exp)
-```
-
-
-```{r}
- # Libraries for dynamic lm, regression table and F tests
-library(dynlm);library(lmtest);library(car)
-data(data, package=’wooldridge’)# Define Yearly time series beginning in 1913
-tsdata <- ts(fertil3, start=1913) # Linear regression of model with lags:
-res <- dynlm(gfr ~ pe + L(pe) + L(pe,2) + ww2 + pill, data=tsdata)
-coeftest(res)
-```
-
-
-```{r}
-plot(exp, type="l", col="blue")
-lines(USA)
 ```
 
 
