@@ -20,7 +20,7 @@ pri_con <- data$`Real private consumption: https://fred.stlouisfed.org/series/NA
 energy <- data$`Consumer Price Index: OECD Groups: Energy (Fuel, Electricity, and Gasoline): Total for Germany, Change, Growth rate same period previous year, Quarterly, Not Seasonally Adjusted`
 gdp_yearago<-data$`Real GDP percent year ago`
 eurozone<-data$`Eurozonen: Real GDP growth quarterly previous period`
-fx<- data$`Exchange rate`
+fx <- data$`Exchange rate`
 exp <- data$`Real Export - % change from year ago`
 rente <- data$`Interest Rate (10-year Goverment Bond Yields)`
 G <- data$`Germany Fiscal Expenditure EUR Billion.`
