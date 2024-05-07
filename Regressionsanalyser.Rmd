@@ -147,9 +147,9 @@ lines(china, type="l", col="green")
 
 
 
-# Forsøg med eksport som afhængig variabel
+# Forsøg med eksport som afhængig variabel, udland
 ```{r}
-reg_eksport<-lm(exp~ULC)
+reg_eksport<-lm(exp~lag(china,2)+eurozone_pct_year+USA)
 summary(reg_eksport)
 ```
 
