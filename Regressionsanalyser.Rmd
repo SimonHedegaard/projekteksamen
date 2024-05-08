@@ -57,7 +57,7 @@ names<- c("Intercept", "Eksport", "$\\text{Rente}_{t-6}$", "$Unit Labour Cost_{t
 
 # Pass the modified model object to screenreg()
 library(texreg) # Assuming you're using the texreg package for screenreg()
-screenreg(nytforsøg, custom)
+screenreg(nytforsøg, custom.)
 ```
 
 #Test om residualer er normalfordelt
