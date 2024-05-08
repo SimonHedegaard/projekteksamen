@@ -30,4 +30,197 @@ stargazer(nytforsøg, rqmod, type="text")
 
 
 
+```{r}
+rm(list=ls(all=T))
+```
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(dynlm)
+library(lmtest)
+library(dplyr)
+library(texreg)
+library(sandwich)
+library(foreign)
+library(tseries)
+data <- read_excel("Makroøkonomisk projekt.xlsx")
+data1 <- read_excel("Makroøkonomisk projekt.xlsx", sheet = "Nominel nøgletal")
+gdp <- data$gdp_pct_change
+china <- data$`China gdp year ago`
+unemp <- data$unemp
+inf <- data$`HCIP: growth same period previous year`
+pri_con <- data$`Real private consumption: https://fred.stlouisfed.org/series/NAEXKP02DEQ657S`
+energy <- data$`Consumer Price Index: OECD Groups: Energy (Fuel, Electricity, and Gasoline): Total for Germany, Change, Growth rate same period previous year, Quarterly, Not Seasonally Adjusted`
+gdp_yearago<-data$`Real GDP percent year ago`
+eurozone<-data$`Eurozonen: Real GDP growth quarterly previous period`
+fx <- data$`Exchange rate EUR 1 = USD`
+exp <- data$`Real Export - % change from year ago`
+rente <- data$`Interest Rate (10-year Goverment Bond Yields)`
+G <- data$`Germany Fiscal Expenditure EUR Billion.`
+ULC<-data$`ULC pct change previous period`
+produktivitet<-data$`Productivity output per hour worked (mining and manufacturing)`
+import<-data$`Real Import - % change from year ago`
+USA<-data$`USA real gdp percent year ago`
+eurozone_pct_year<-data$`New eurozone gdp year ago`
+ULC_year_ago<-data1$`ULC ny`
+```
+```{r}
+View(data1)
+```
+
+
+
+# NYT FORSØG hvor vi finder ud af at det ikke giver mening med hverken inflation eller energy. STANDARD MODEL med højde for robust standard errors korregeret for heteroskedasticity
+```{r}
+nytforsøg<-lm(gdp_yearago~exp+lag(rente,6)+lag(ULC_year_ago,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+lag(inf,2)+lag(I(inf^2),2))
+summary(nytforsøg)
+bptest(nytforsøg)
+coeftest(nytforsøg, vcov=vcovHC(nytforsøg,type="HC0")) #ikke vigtig - modellen er homoskedastizity nu
+
+#Standard model perioder
+##Standard model 2000-2010
+```
+
+```{r}
+mod_2000_2010<-lm(gdp_yearago[1:45]~exp[1:45]+lag(rente[1:45],6)+lag(ULC_year_ago[1:45],3)+lag(china[1:45],2)+lag(USA[1:45],1)+eurozone_pct_year[1:45]+lag(inf[1:45],2)+lag(I(inf[1:45]^2),2))
+summary(mod_2000_2010)
+jarque.bera.test(mod_2000_2010$residuals)
+shapiro.test(mod_2000_2010$residuals)
+```
+
+##Standard model 2003-2013
+```{r}
+mod_2003_2013<-lm(gdp_yearago[13:56]~exp[13:56]+lag(rente[13:56],6)+lag(ULC[13:56],3)+lag(china[13:56],2)+lag(USA[13:56],1)+eurozone_pct_year[13:56]+lag(inf[13:56],2)+lag(I(inf[13:56]^2),2))
+summary(mod_2003_2013)
+jarque.bera.test(mod_2003_2013$residuals)
+shapiro.test(mod_2003_2013$residuals)
+
+```
+
+
+
+##Standard model 2006-2016
+```{r}
+mod_2006_2016<-lm(gdp_yearago[25:68]~exp[25:68]+lag(rente[25:68],6)+lag(ULC[25:68],3)+lag(china[25:68],2)+lag(USA[25:68],1)+eurozone_pct_year[25:68]+lag(inf[25:68],2)+lag(I(inf[25:68]^2),2))
+summary(mod_2006_2016)
+jarque.bera.test(mod_2006_2016$residuals)
+shapiro.test(mod_2006_2016$residuals)
+
+```
+
+
+
+##Standard model 2009-2019
+```{r}
+mod_2009_2019<-lm(gdp_yearago[39:80]~exp[39:80]+lag(rente[39:80],6)+lag(ULC[39:80],3)+lag(china[39:80],2)+lag(USA[39:80],1)+eurozone_pct_year[39:80]+lag(inf[39:80],2)+lag(I(inf[39:80]^2),2))
+summary(mod_2009_2019)
+jarque.bera.test(mod_2009_2019$residuals)
+shapiro.test(mod_2009_2019$residuals)
+
+```
+
+
+
+##Standard model 2012-2023
+```{r}
+mod_2012_2023<-lm(gdp_yearago[49:96]~exp[49:96]+lag(rente[49:96],6)+lag(ULC[49:96],3)+lag(china[49:96],2)+lag(USA[49:96],1)+eurozone_pct_year[49:96]+lag(inf[49:96],2)+lag(I(inf[49:96]^2),2))
+summary(mod_2012_2023)
+jarque.bera.test(mod_2012_2023$residuals)
+shapiro.test(mod_2012_2023$residuals)
+
+```
+
+
+```{r}
+screenreg(list("Hele perioden"=nytforsøg, "2000-2010"=mod_2000_2010, "2003-2013"=mod_2003_2013, "2006-2016"=mod_2006_2016, "2009-2019"=mod_2009_2019, "2012-2023"=mod_2012_2023))
+```
+
+
+
+
+Resultater af Summary mellem regression perioderne:
+
+#Eksport
+Det kan observeres ud fra estimatorne og signifikans niveau at eksporten før/ under krisen ikke var signifikant for Tyskland BNP vækst i perioden, hvorved for hele perioden 2000-2023, er eksporten signifikant ud fra et 5% signifikant niveau.
+
+Ved at rykke perioden for regressionen til 2003-2013, kan det observeres at eksporten nu er blevet signifikant, til et 0.1% signifikant niveau.Ligeledes er eksporten estimatet ændret fra 0.1% til 0.27%
+
+I perioden 2006-2016, observeres der ca. det samme som i tidligere regressions periode.
+
+I perioden 2009-2019, ændres signifikant niveauet sig fra 0.1% til 5%, som stadig gør eksporten signifikant,så der er stadig et statistisk forhold mellem BNP og exporten. Estimatet er faldet fra 0.24% til 0.16%.
+
+I sidste regression periode, 2012-2023, er exporten ikke signifikant, og estimatet er falder fra 0.16% til 0.08%. Det skal noteres at her påvirker Corona krisen, og gør det mindre sammenligneligt med regressioner i de andre perioder.
+
+Grunden til at Eksporten ikke er signifkant i 2000-2010, kan skyldes der er noget strukturelt der har gjordt at eksport ikke har været den hovedsaglige driver for økonomien. Det kan evt. være at Tyskland ikke har oplevet vækst i deres eksporte markeder for perioden.
+
+Efter finanskrisen kan bl.a. globalisering gjordt at Tyskland har haft flere eksport muligheder og de har oplevet ny vækst for deres eksport.
+
+
+#Rente
+
+Renten for hele periode er signifikant med en parameter på 0,41%
+
+I perioden 2000-2010, er renten signifikant for væksten, med et estimat på -0.76 pct.
+
+I perioden 2003-2013, er renten ikke signifikant, og estimatet er ændret fra -0.76 pct. til -0.39 pct.
+
+Perioderne 2006-2016, 2009-2019, 2012-2023 ligeledes ikke signifikant, og estimatet er ændret fra -0.35 pct. til henholdvis -0.1 pct., -0.15 pct., 0.26pct.
+
+
+Efter finanskrisen, lav constant rente, fordi vækst ikke var så stærk samt de havde for lav inflation. Ligeledes kan reaktionen på finanskrisen, i forhold til ECB opkøb af obligationer kunne have gjordt at renten har haft mindre/ingen påvirkning på væksten.
+
+
+#Unit Labour Cost
+
+Unit Labour Cost for hele perioden er signifikant for væksten i Tyskland, med et estimat på -0.16 pct.
+ 
+I perioden 2000-2010, er UCL signifikant med et estiamt på -0.25 pct. 
+
+I perioden 2003-2013, er UCL ikke signifikant og estimatet er ændret fra -0.25 pct. til -0.27 pct.
+
+I perioden 2006-2016, er UCL signifikant og estimatet er ændret fra -0.27 pct. til -0.34 pct.
+
+I perioden 2009-2019, er UCL signifikant og estimatet er ændret fra -0.34 pct. til -0.46 pct.
+
+I perioden 2012-2023, er UCL signifikant og estimatet er ændret fra -0.46 pct. til -0.23 pct.
+
+
+
+#Kina
+
+Kina's vækst for hele perioden er signifikant for væksten i Tyskland, med et estiamt på 0.12 pct.
+
+I perioden 2000-2010, er Kina ikke signifikant med et estiamt på -0.04 pct. 
+
+I perioden 2003-2013, er Kina ikke signifikant og estimatet er ændret fra -0.04 pct. til -0.16 pct.
+
+I perioden 2006-2016, er Kina ikke signifikant og estimatet er ændret fra -0.16 pct. til -0.13 pct.
+
+I perioden 2009-2019, er Kina signifikant og estimatet er ændret fra -0.13 pct. til 0.43 pct.
+
+I perioden 2012-2023, er Kina ikke signifikant og estimatet er ændret fra 0.43 pct. til 0.1 pct.
+
+Grundet til Kina's vækst ikke er signifikant for Tyskland BNP vækst fra 2000-2016, kan skyldes at exsporten til Kina er vokset betydeligt i hele perioden, og specielt efter finanskrisen udvidet eksport markedet sig til Kina, som nu er blevet en driver for Tysklands økonomiske vækst. Ligeldes oplevet Kina enorm vækst i perioden, som gør de har importeret bl.a. maskiner,transport og kemiske produkter.   
+
+"Referer til OECD DATA FOR EKSPORT MARKED"
+
+
+
+
+#USA
+
+USA vækst for hele perioden samt delperioder er signifikant, hvor alle estiamtor har negativt fortegn. 
+I forhold til Makroøkonomisk viden og teori, giver det ikke meaning at når eks. USA vækster med 1 pct. er Tyskland vækst falder med -0.25 pct. alt andet holdt fast. Hvis et export marked vokser, burde det i teorien også påvirke eksporten positivt, og dermed BNP for Tyskland.
+Det kan evt. undersøges videre ift. at eksportmarkedet USA, ikke er cyclisk, mens et eksportmarkedet som Kina er cyclisk.
+
+#Eurozonen
+
+Eurozonen's vækst i hele perioden er signifikant for 
+
+
+Der er et statistisk forhold 
+
+Det er blevet mere signifikant ved et 1% signifikant niveau
+
+vi bliver mere sikker på at vores estimat er retvisende i forhold til den effekt den vil have på BNP vækst
