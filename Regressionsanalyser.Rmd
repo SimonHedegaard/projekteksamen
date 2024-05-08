@@ -14,7 +14,9 @@ library(dplyr)
 library(texreg)
 library(sandwich)
 library(foreign)
+library(tseries)
 data <- read_excel("Makroøkonomisk projekt.xlsx")
+data1 <- read_excel("Makroøkonomisk projekt.xlsx", sheet = "Nominel nøgletal")
 gdp <- data$gdp_pct_change
 china <- data$`China gdp year ago`
 unemp <- data$unemp
@@ -23,7 +25,7 @@ pri_con <- data$`Real private consumption: https://fred.stlouisfed.org/series/NA
 energy <- data$`Consumer Price Index: OECD Groups: Energy (Fuel, Electricity, and Gasoline): Total for Germany, Change, Growth rate same period previous year, Quarterly, Not Seasonally Adjusted`
 gdp_yearago<-data$`Real GDP percent year ago`
 eurozone<-data$`Eurozonen: Real GDP growth quarterly previous period`
-fx <- data$`Exchange rate`
+fx <- data$`Exchange rate EUR 1 = USD`
 exp <- data$`Real Export - % change from year ago`
 rente <- data$`Interest Rate (10-year Goverment Bond Yields)`
 G <- data$`Germany Fiscal Expenditure EUR Billion.`
@@ -50,7 +52,7 @@ lines(gdp_yearago)
 ```
 
 
-# NYT FORSØG hvor vi finder ud af at det ikke giver mening med hverken inflation eller energy. STANDARD MODEL med højde for robust standard errors
+# NYT FORSØG hvor vi finder ud af at det ikke giver mening med hverken inflation eller energy. STANDARD MODEL med højde for robust standard errors korregeret for heteroskedasticity
 ```{r}
 nytforsøg<-lm(gdp_yearago~exp+lag(rente,6)+lag(ULC,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+lag(inf,2)+lag(I(inf^2),2))
 summary(nytforsøg)
@@ -149,10 +151,23 @@ lines(china, type="l", col="green")
 
 # Forsøg med eksport som afhængig variabel, udland
 ```{r}
-reg_eksport<-lm(exp~lag(china,2)+eurozone_pct_year+USA)
+reg_eksport<-dynlm(exp~lag(china,1)+eurozone_pct_year+lag(USA,1)+fx)
 summary(reg_eksport)
 ```
 
+##Dynlm til eksportmodel
+```{r}
+reg_eksport1<-dynlm(TSDELTALOG(exp_nom_ts)~TSDELTALOG(euro_nom_ts)+L(TSDELTALOG(USA_nom_ts,1))+fx_ts)
+summary(reg_eksport1)
+```
+
+
+
+#Forsøg med eksport indenlandske faktorer
+```{r}
+reg_eksport2<-lm(exp~lag(ULC,3)+lag(rente,6)+lag(produktivitet,1))
+summary(reg_eksport2)
+```
 
 
 ```{r}
