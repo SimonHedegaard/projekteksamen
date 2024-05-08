@@ -53,11 +53,11 @@ bptest(nytforsøg)
 coeftest(nytforsøg, vcov=vcovHC(nytforsøg,type="HC0")) #ikke vigtig - modellen er homoskedastizity nu
 
 # Rename the variables in the model object
-names<- c("Intercept", "Eksport", "$\\text{Rente}_{t-6}$", "$Unit Labour Cost_{t-3}$", "$Kina BNP vækst_{t-2}$", "$USA BNP vækst_{t-1}$", "$Eurozone BNP vækst$")
+names<- c("Intercept", "Eksport", "Rente", "Unit Labour Cost", "Kina BNP vækst", "USA BNP vækst", "Eurozone BNP vækst", "Inflation", "Inflation^2")
 
 # Pass the modified model object to screenreg()
 library(texreg) # Assuming you're using the texreg package for screenreg()
-screenreg(nytforsøg, custom.)
+screenreg(nytforsøg, custom.coef.names=names, custom.model.names="Model for BNP")
 ```
 
 #Test om residualer er normalfordelt
