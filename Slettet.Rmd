@@ -1,0 +1,33 @@
+---
+title: "Slettet"
+output: html_document
+date: "2024-05-08"
+---
+
+
+#Fjerner outliers
+```{r}
+outliers <- c(83,84)
+data_clean <- data[-outliers,]
+gdp_clean <- data_clean$gdp_pct_change; exp_clean <- data_clean$`Real Export - % change from year ago`; rente_clean <- data_clean$`Interest Rate (10-year Goverment Bond Yields)`; ULC_clean <- data_clean$`ULC pct change previous period`; china_clean <- data_clean$`China gdp year ago`; USA_clean <- data_clean$`USA real gdp percent year ago`; euro_clean <- data_clean$`Eurozonen: Real GDP growth quarterly previous period`
+inf_clean <- data_clean$`HCIP: growth same period previous year`
+
+nytforsøg2 <- lm(gdp_clean ~ exp_clean + lag(rente_clean, 6) + lag(ULC_clean, 3) + lag(china_clean, 2) + lag(USA_clean, 1) + euro_clean +lag(inf_clean,2) + lag(I(inf_clean^2),2) )
+summary(nytforsøg2)
+plot(nytforsøg2)
+```
+
+
+
+
+#Forsøg med LAD
+```{r}
+library(quantreg); library(stargazer)
+rqmod <- rq(gdp_yearago~exp+lag(rente,6)+lag(ULC,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+lag(inf,2)+lag(I(inf^2),2) )
+stargazer(nytforsøg, rqmod, type="text")
+```
+
+
+
+
+

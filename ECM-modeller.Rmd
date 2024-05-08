@@ -32,10 +32,11 @@ rente_ts <- ts(rente, start = c(2000, 1), end = c(2023, 4), frequency = 4)
 inf_ts <- ts(inf, start = c(2000, 1), end = c(2023, 4), frequency = 4)
 ULC_ts <- ts(ULC, start = c(2000, 1), end = c(2023, 4), frequency = 4)
 euro_nom_ts <- ts(euro_nom, start = c(2000, 1), end = c(2023, 4), frequency = 4)
+fx_ts <- ts(fx, start = c(2000, 1), end = c(2023, 4), frequency = 4)
 ```
 
 ```{r}
-ECM <- dynlm(TSDELTALOG(ger_nom_ts)~L(TSDELTALOG(USA_nom_ts,1))+L(TSDELTALOG(euro_nom_ts))+L(rente_ts,6)+L(ULC_ts,3)+L(log(USA_nom_ts),1)+log(euro_nom_ts)+trend(TSDELTALOG(ger_nom_ts)))
+ECM <- dynlm(TSDELTALOG(ger_nom_ts)~L(TSDELTALOG(USA_nom_ts,1))+L(TSDELTALOG(euro_nom_ts))+L(rente_ts,6)+L(ULC_ts,3)+L(log(USA_nom_ts),1)+log(L(euro_nom_ts,1))+L(log(ger_nom_ts),1))
 summary(ECM)
 ```
 
