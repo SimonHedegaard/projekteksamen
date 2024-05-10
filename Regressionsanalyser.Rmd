@@ -150,16 +150,9 @@ shapiro.test(mod_2010$residuals)
 
 # Forsøg med eksport som afhængig variabel, udland
 ```{r}
-reg_eksport<-dynlm(exp~lag(china,1)+eurozone_pct_year+lag(USA,1)+fx)
+reg_eksport<-lm(exp~lag(china,2)+eurozone_pct_year+lag(USA,1))
 summary(reg_eksport)
 ```
-
-##Dynlm til eksportmodel
-```{r}
-reg_eksport1<-dynlm(TSDELTALOG(exp_nom_ts)~TSDELTALOG(euro_nom_ts)+L(TSDELTALOG(USA_nom_ts,1))+fx_ts)
-summary(reg_eksport1)
-```
-
 
 
 #Forsøg med eksport indenlandske faktorer
@@ -167,6 +160,13 @@ summary(reg_eksport1)
 reg_eksport2<-lm(exp~lag(ULC_year_ago,3)+lag(rente,6))
 summary(reg_eksport2)
 ```
+
+#Eksport mix and match
+```{r}
+exp_mm <- lm(exp~lag(ULC_year_ago,3)+eurozone_pct_year+lag(china,2)+lag(USA,1))
+summary(exp_mm)
+```
+
 
 
 ```{r}

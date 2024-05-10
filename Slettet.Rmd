@@ -27,7 +27,11 @@ rqmod <- rq(gdp_yearago~exp+lag(rente,6)+lag(ULC,3)+lag(china,2)+lag(USA,1)+euro
 stargazer(nytforsøg, rqmod, type="text")
 ```
 
-
+##Dynlm til eksportmodel
+```{r}
+reg_eksport1<-dynlm(TSDELTALOG(exp_nom_ts)~TSDELTALOG(euro_nom_ts)+L(TSDELTALOG(USA_nom_ts,1))+fx_ts)
+summary(reg_eksport1)
+```
 
 
 ```{r}
