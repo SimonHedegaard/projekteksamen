@@ -177,12 +177,6 @@ lines(energy, type="l", col="green")
 energy <- na.omit(energy)
 ```
 
-Procentvis ændring for gov exp
-```{r}
-gov_con_log <- c(NA, diff(gov_con)/lag(gov_con))
-gov_con_log <- gov_con_log[2:97]
-```
-
 
 
 Regressionsmodel for export

@@ -66,9 +66,18 @@ eurozone_pct_year<-data$`New eurozone gdp year ago`
 ULC_year_ago<-data1$`ULC ny`
 ```
 ```{r}
-View(data1)
+View(data)
 ```
 
+```{r}
+G_change <-  100 * ((data$`Germany Fiscal Expenditure EUR Billion.` - lag(data$`Germany Fiscal Expenditure EUR Billion.`, 4)) / lag(data$`Germany Fiscal Expenditure EUR Billion.`, 4))
+
+plot(lag(G_change,3), type = "l", col = "blue", xlab = "Time", ylab = "Deltalog Transformed Variable3")
+lines(gdp_yearago, type = "l", col = "green") 
+abline(h = 0, col = "red")
+line(gdp_yearago)
+G_change
+```
 
 
 # NYT FORSØG hvor vi finder ud af at det ikke giver mening med hverken inflation eller energy. STANDARD MODEL med højde for robust standard errors korregeret for heteroskedasticity
@@ -77,14 +86,26 @@ nytforsøg<-lm(gdp_yearago~exp+lag(rente,6)+lag(ULC_year_ago,3)+lag(china,2)+lag
 summary(nytforsøg)
 bptest(nytforsøg)
 coeftest(nytforsøg, vcov=vcovHC(nytforsøg,type="HC0")) #ikke vigtig - modellen er homoskedastizity nu
-
+jarque.bera.test(nytforsøg$residuals)
+shapiro.test(nytforsøg$residuals)
 #Standard model perioder
 ##Standard model 2000-2010
+```
+
+
+```{r}
+nytforsøg<-lm(gdp_yearago~exp+lag(rente,6)+lag(ULC_year_ago,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+lag(inf,2)+lag(I(inf^2),2)+lag(G_change,3))
+summary(nytforsøg)
+bptest(nytforsøg)
+coeftest(nytforsøg, vcov=vcovHC(nytforsøg,type="HC0")) #ikke vigtig - modellen er homoskedastizity nu
+jarque.bera.test(nytforsøg$residuals)
+shapiro.test(nytforsøg$residuals)
 ```
 
 ```{r}
 mod_2000_2010<-lm(gdp_yearago[1:45]~exp[1:45]+lag(rente[1:45],6)+lag(ULC_year_ago[1:45],3)+lag(china[1:45],2)+lag(USA[1:45],1)+eurozone_pct_year[1:45]+lag(inf[1:45],2)+lag(I(inf[1:45]^2),2))
 summary(mod_2000_2010)
+bptest(mod_2000_2010)
 jarque.bera.test(mod_2000_2010$residuals)
 shapiro.test(mod_2000_2010$residuals)
 ```
@@ -93,6 +114,7 @@ shapiro.test(mod_2000_2010$residuals)
 ```{r}
 mod_2003_2013<-lm(gdp_yearago[13:56]~exp[13:56]+lag(rente[13:56],6)+lag(ULC[13:56],3)+lag(china[13:56],2)+lag(USA[13:56],1)+eurozone_pct_year[13:56]+lag(inf[13:56],2)+lag(I(inf[13:56]^2),2))
 summary(mod_2003_2013)
+bptest(mod_2003_2013)
 jarque.bera.test(mod_2003_2013$residuals)
 shapiro.test(mod_2003_2013$residuals)
 
@@ -104,6 +126,7 @@ shapiro.test(mod_2003_2013$residuals)
 ```{r}
 mod_2006_2016<-lm(gdp_yearago[25:68]~exp[25:68]+lag(rente[25:68],6)+lag(ULC[25:68],3)+lag(china[25:68],2)+lag(USA[25:68],1)+eurozone_pct_year[25:68]+lag(inf[25:68],2)+lag(I(inf[25:68]^2),2))
 summary(mod_2006_2016)
+bptest(mod_2006_2016)
 jarque.bera.test(mod_2006_2016$residuals)
 shapiro.test(mod_2006_2016$residuals)
 
@@ -115,6 +138,7 @@ shapiro.test(mod_2006_2016$residuals)
 ```{r}
 mod_2009_2019<-lm(gdp_yearago[39:80]~exp[39:80]+lag(rente[39:80],6)+lag(ULC[39:80],3)+lag(china[39:80],2)+lag(USA[39:80],1)+eurozone_pct_year[39:80]+lag(inf[39:80],2)+lag(I(inf[39:80]^2),2))
 summary(mod_2009_2019)
+bptest(mod_2009_2019)
 jarque.bera.test(mod_2009_2019$residuals)
 shapiro.test(mod_2009_2019$residuals)
 
@@ -126,6 +150,7 @@ shapiro.test(mod_2009_2019$residuals)
 ```{r}
 mod_2012_2023<-lm(gdp_yearago[49:96]~exp[49:96]+lag(rente[49:96],6)+lag(ULC[49:96],3)+lag(china[49:96],2)+lag(USA[49:96],1)+eurozone_pct_year[49:96]+lag(inf[49:96],2)+lag(I(inf[49:96]^2),2))
 summary(mod_2012_2023)
+bptest(mod_2012_2023)
 jarque.bera.test(mod_2012_2023$residuals)
 shapiro.test(mod_2012_2023$residuals)
 
@@ -216,11 +241,37 @@ Det kan evt. undersøges videre ift. at eksportmarkedet USA, ikke er cyclisk, me
 
 #Eurozonen
 
-Eurozonen's vækst i hele perioden er signifikant for 
+Eurozonen's vækst i hele perioden er signifikant for Tysklands BNP vækst.
+
+Alle delperioder for Eurozonen er også signifikant, hvor det kan observeres i perioden 2009-2019, at der er mindre signifikant niveau, dog stadig signifikant. Der forekommer dog en ændring i estimatet for perioderne, hvor de falder fra 2000-2010 helt til 2009-2019/2012-2023.
+
+Der kan argumenteres for at Tyskland var mere afhængig af Eurozonen vækst før finanskrisen, og at efter finanskrisen er økonomien blevet mere spredt ift. evt. eksportmarkeder, og derfor kan der observeres et faldt i estimatet for Eurozonen gennem perioderne.
 
 
-Der er et statistisk forhold 
+#Inflation
 
-Det er blevet mere signifikant ved et 1% signifikant niveau
+Inflation i hele perioden har været signifikant for Tysklands vækst.
+Det skal bemærkes at der er positivt fortegn ved estimatet på 0.61 for hele perioden.
 
-vi bliver mere sikker på at vores estimat er retvisende i forhold til den effekt den vil have på BNP vækst
+I perioderne 2000-2010, 2003-2013 og 2012-2023 har inflation ikke været signifikant for Tysklands økonomi. 
+
+I perioderne 2006-2016 og 2009-2019 har inflation været signifikant for Tyskland økonomi med estimateter på hhv. 0.97 og 0.82
+
+
+
+En interresant observations er at, i de regressioner inflation er signifikant for Tysklands BNP vækst, er der et positivt fortegn, forstået som en stigning inflation skaber en stigning i den økonomiske vækst. Normalt anses inflationen som en negativt påvirkning på økonomien. Men det positive fortegn kan evt. forklares ved at i de perioder hvor inflationen har værer signifikant, har inflationen været mellem 0 pct. til 3,2 pct. 
+Det kan argumenteres for inflationen var inde for et acceptabelt bånd, og at en stigning eller fald i inflation, i de perioder, højest sandsynligt har været grundet konjunktur udsving fra højkonjuntur til lavkonjunktur, vice versa. Det er derfor der observeres en positiv correlation mellem vækst og inflation. At inflationen er signifikant for hele perioden, kan skyldes perioderne 2006-2016 og 2009-2019 har en stor påvirkning på regressionen for hele perioden. 
+Ligeledes er det interresant at obseverer, at når perioden efter corona tilføjes til en regression, 2012-2023, er inflationen ikke signifikant, der kan evt. skyldes at inflation udviklingen ikke var en funktionen af høj vækst, som set tidligere, men forskellige chok til økonomien i form af forsyningskæder og energipriser.
+
+Grundet til at der ikke inflation påvirkning mellem 2000-2013, kan skyldes, import af kinesiske varer, som i den periode var deflationær for den global økonomi.
+
+#Inflation^2
+
+Inflation med tilføjelse af kvadrant, for at se effekten på økonomien ved høje inflations tal, for hele perioden er inflation signifikant og fortegnet er nu ændret til minus fremfor plus ved normal inflation.
+
+Der er dog ingen af delregressioner som er signifikant for økonomien.
+
+En Interresant observation ift. normal inflation til inflation kvadrant, det ændre alle fortegn på estimaterne til det modsatte.
+I forhold til teorien passer estimaternes fortegn, selvom de ikke er signifikant med undtagelse af 2000-2010.
+
+
