@@ -26,6 +26,11 @@ legend("topleft", legend = c("PTC_change", "PTI_change", "Tax_change"), col = c(
 
 
 ```{r}
+# Beregning af ændringsraterne for PTC, PTI og Tax variablerne
+PTC_change<- 100 * ((PTC - lag(PTC, 1)) / lag(PTC, 1))
+PTI_change <- 100 * ((PTI - lag(PTI, 1)) / lag(PTI, 1))
+Tax_change <- 100 * ((Tax_to_gdp - lag(Tax_to_gdp, 1)) / lag(Tax_to_gdp, 1))
+
 # Plot med y-akse justeret ved hjælp af ylim
 plot(PTC_change, x=År, type = "l", col = "blue", xlab = "År", ylab = "Udvikling i pct.", ylim = c(-20, 20))
 lines(PTI_change, x=År, type = "l", col = "green")
@@ -39,11 +44,6 @@ legend("bottomleft", legend = c("PTC_change", "PTI_change", "Tax_change"), col =
 
 
 ```{r}
-# Beregning af ændringsraterne for PTC, PTI og Tax variablerne
-PTC_change<- 100 * ((PTC - lag(PTC, 1)) / lag(PTC, 1))
-PTI_change <- 100 * ((PTI - lag(PTI, 1)) / lag(PTI, 1))
-Tax_change <- 100 * ((Tax_to_gdp - lag(Tax_to_gdp, 1)) / lag(Tax_to_gdp, 1))
-
 
 # Plot med y-akse justeret ved hjælp af ylim
 plot(PTC_change, x=År, type = "l", col = "blue", xlab = "År", ylab = "Udvikling i pct.", ylim = c(-20, 20))
@@ -72,7 +72,7 @@ model_PTI <- lm(PTI ~ Year, data = data)
 model_Tax <- lm(Tax_to_gdp ~ Year, data = data)
 
 # Plot ændringerne og tilføj trendlinjer
-plot(data$Year, PTC, type = "l", col = "blue", xlab = "Year", ylab = "Change", ylim = c(70, 85))
+plot(data$Year, PTC, type = "l", col = "blue", xlab = "Year", ylab = "Change", ylim = c(0, 105))
 lines(data$Year, PTI, type = "l", col = "green")
 lines(data$Year, Tax_to_gdp, type = "l", col = "yellow")
 abline(model_PTC, col = "blue", lty = 2)
