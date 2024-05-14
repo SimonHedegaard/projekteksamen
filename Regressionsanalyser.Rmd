@@ -138,7 +138,7 @@ lines(china, type="l", col="green")
 #Standard model 2003-2013
 ```{r}
 mod_2003_2013<-lm(gdp_yearago[13:56]~exp[13:56]+lag(rente[13:56],6)+lag(ULC[13:56],3)+lag(china[13:56],2)+lag(USA[13:56],1)+eurozone_pct_year[13:56]+lag(inf[13:56],2)+lag(I(inf[13:56]^2),2))
-summary(mod_2003_20013)
+summary(mod_2003_2013)
 jarque.bera.test(mod_2010$residuals)
 shapiro.test(mod_2010$residuals)
 
