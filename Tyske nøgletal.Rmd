@@ -7,14 +7,13 @@ date: "2024-04-05"
 
 ```{r}
 library(readxl)
-DataTyskland <- read_excel("DataTyskland.xlsx")
-DataTyskland$`exchange rate 1 EUR to USD` <- as.numeric(gsub("[^0-9.-]", "", DataTyskland$`exchange rate 1 EUR to USD`))
+DataTyskland <- read_excel("Makroøkonomisk projekt.xlsx")
 ```
 
 ```{r}
-GDP_pct_change<-DataTyskland$gdp_pct_change
+GDP_year_ago<-DataTyskland$`Real GDP percent year ago`
 Unemployment<-DataTyskland$unemp
-HPI<-DataTyskland$`HPI: growth same period previous year`
+HPI<-DataTyskland$`HCIP: growth same period previous year`
 Rente<-DataTyskland$`Interest Rate (10-year Goverment Bond Yields)`
 Eksport<-DataTyskland$`Real Export - % change from year ago`
 Import<-DataTyskland$`Real Import - % change from year ago`
@@ -28,12 +27,14 @@ Produktivitet<-DataTyskland$`Productivity output per hour worked (mining and man
 DataTyskland$Date <- as.Date(DataTyskland$Date)
 
 # Opret ggplot-objekt og plot grafen
-ggplot(DataTyskland, aes(x = Date, y = GDP_pct_change)) +
+ggplot(DataTyskland, aes(x = Date, y = GDP_year_ago)) +
   geom_line(color = "blue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
   labs(title = "",
        x = "År",
        y = "%") +
-  theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 
@@ -52,6 +53,7 @@ ggplot(DataTyskland, aes(x = Date, y = Unemployment)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = HPI)) +
   geom_line(color = "blue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
   labs(title = "",
        x = "År",
        y = "%") +
@@ -73,6 +75,7 @@ ggplot(DataTyskland, aes(x = Date, y = Rente)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = Eksport)) +
   geom_line(color = "blue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
   labs(title = "",
        x = "År",
        y = "%") +
@@ -84,6 +87,7 @@ ggplot(DataTyskland, aes(x = Date, y = Eksport)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = Import)) +
   geom_line(color = "blue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
   labs(title = "",
        x = "År",
        y = "%") +
@@ -95,9 +99,10 @@ ggplot(DataTyskland, aes(x = Date, y = Import)) +
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = arbejdskraftenhedsomkostninger)) +
   geom_line(color = "blue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
   labs(title = "",
        x = "År",
-       y = "EUR") +
+       y = "%") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
 ```
 
@@ -125,8 +130,8 @@ ggplot(DataTyskland, aes(x = Date, y = produktivitet)) +
 
 ```{r}
 ggplot(DataTyskland, aes(x = Date)) +
-  geom_line(aes(y = GDP_pct_change, color = "BNP pct ændring"), linetype = "solid") +
-  geom_line(aes(y = arbejdskraftenhedsomkostninger, color = "Enhedslønomkostninger pct ændring"), linetype = "solid")+ # Tilføjelse af linje for enhedslønomkostninger
+  geom_line(aes(y = eksport, color = "BNP pct ændring"), linetype = "solid") +
+  geom_line(aes(y = import, color = "Enhedslønomkostninger pct ændring"), linetype = "solid")+ # Tilføjelse af linje for enhedslønomkostninger
   labs(title = "",
        x = "År",
        y = "%") +
@@ -142,11 +147,20 @@ ggplot(DataTyskland, aes(x = Date)) +
 
 
 ```{r}
-bnp3 <- GDP_pct_change[1:95]
-prod3<- arbejdskraftenhedsomkostninger[1:95]
-correlation<-cor(bnp3, prod3)
-correlation
+ggplot(DataTyskland, aes(x = Date)) +
+  geom_line(aes(y = rente, color = "Rente i pct"), linetype = "solid") +
+  geom_line(aes(y = HPI, color = "Inflation i pct"), linetype = "solid")+ # Tilføjelse af linje for enhedslønomkostninger
+  labs(title = "",
+       x = "År",
+       y = "%") +
+  scale_color_manual(values = c("Rente i pct" = "blue", "Inflation i pct" = "red")) +  # Justér farverne efter behov
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(legend.position=c("top")) +
+  labs(color = "Variable") +
+  guides(color = guide_legend(title = NULL))
 ```
+
 
 
 
