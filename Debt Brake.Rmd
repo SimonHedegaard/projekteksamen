@@ -11,25 +11,29 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(readxl)
+library(ggplot2)
 debt <- read_excel("Makroøkonomisk projekt.xlsx", sheet = "Debt ")
 na.omit(debt)
-debt 
+date01 <- debt$Date...2
 ```
 
 ```{r}
 ggplot(debt, aes(x = date01)) +
-  geom_line(aes(y = debt$`Percent of GDP...3`, color = "Tyskland"), linetype = "solid") +
-  geom_line(aes(y = debt$`Percent of GDP...18`, color = "EU"), linetype = "solid") + # Tilføjelse af linje for enhedslønomkostninger
+  geom_line(aes(y = `Percent of GDP...3`, color = "Tyskland"), linetype = "solid") +
+  geom_line(aes(y = `Percent of GDP...18`, color = "EU"), linetype = "solid") + 
+  geom_point(data = subset(debt, date01 >= as.Date("2024-01-01") & date01 <= as.Date("2028-01-01")),
+             aes(x = date01, y = `Percent of GDP...3`, color = "Tyskland")) +
   labs(title = "",
        x = "År",
        y = "Pct. af BNP") +
-  scale_color_manual(values = c("Tyskland" = "blue", "EU" = "red")) +  # Justér farverne efter behov
+  scale_color_manual(values = c("Tyskland" = "blue")) + # Fjern farven for EU
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  theme(legend.position=c("top")) +
+  theme(legend.position = "top") +
   labs(color = "Variable") +
   guides(color = guide_legend(title = NULL)) + 
-  geom_abline(aes(intercept=0, slope=0))
+  geom_abline(aes(intercept=0, slope=0)) +
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y")
 ```
 
 ```{r}
