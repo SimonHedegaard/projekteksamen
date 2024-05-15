@@ -186,4 +186,9 @@ summary(reg_exp)
 ```
 
 
+```{r}
+godtforsøg <- lm(gdp_yearago~exp+lag(G,1)+lag(USA,1)+eurozone_pct_year+lag(china,2)+lag(rente,6)+lag(ULC_year_ago,3)+lag(inf,2)+lag(I(inf^2),2))
+summary(godtforsøg)
+```
+
 
