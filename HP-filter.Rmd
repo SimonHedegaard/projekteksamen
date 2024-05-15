@@ -24,20 +24,20 @@ BNP<-data1$`Real Gross Domestic Product for Germany, Millions of Chained 2010 Eu
 ```{r}
 library(mFilter)
 library(readxl)
-DeltalogBNP <- ts(log(data1$`Real Gross Domestic Product for Germany, Millions of Chained 2010 Euros, Quarterly, Seasonally Adjusted`), start = 2000, freq = 4)
+logBNP <- ts(log(data1$`Real Gross Domestic Product for Germany, Millions of Chained 2010 Euros, Quarterly, Seasonally Adjusted`), start = 2000, freq = 4)
 
-# Fjern manglende værdier fra dine data
-cleaned_data <- na.omit(DeltalogBNP)
-
-# Anvend HP-filter på de rensede data
-BNP.hp <- hpfilter(cleaned_data, freq = 60000)
+# Anvend HP-filter
+BNP.hp <- hpfilter(logBNP, freq = 60000)
 
 # Lav plottet
 plot(BNP.hp)
 
+
+#Cykliske komponent
 plot(BNP.hp$cycle,
-     main="Hodrick-Prescott filter of BNP: Cycle,drift=TRUE",
+     main="Hodrick-Prescott filter: Cykliske komponent (afvigelse fra trendlinje)",
      col=3, ylab="", ylim=range(BNP.hp$cycle,na.rm=TRUE))
 abline(h=0)
+grid()
 ```
 
