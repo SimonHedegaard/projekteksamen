@@ -12,10 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(readxl)
 library(ggplot2)
+library(dplyr)
 debt <- read_excel("Makroøkonomisk projekt.xlsx", sheet = "Debt ")
 na.omit(debt)
 date01 <- debt$Date...2
 ```
+
 
 ```{r}
 Tyskland <- debt$`Percent of GDP...3`
@@ -24,7 +26,30 @@ year <- 2000:2028
 df <- data.frame(year, Tyskland)
 eu_df <- data.frame(year = 2000:2023, Tyskland = EU)
 df <- df %>%
-  mutate(data_type=ifelse(year<=2023, "Faktisk", "Forecast"))
+  mutate(data_type = ifelse(year <= 2023, "Faktisk", "Forecast"))
+
+ggplot() +
+  geom_line(data = df, aes(x = year, y = Tyskland, linetype = data_type, color = "Tyskland"), show.legend = TRUE) +
+  geom_line(data = eu_df, aes(x = year, y = Tyskland, linetype = "Faktisk", color = "EU"), show.legend = TRUE) +
+  geom_hline(yintercept = 0, linetype = "solid", color = "black") + # Tilføjet horisontal linje ved 0
+  scale_linetype_manual(values = c("solid", "dashed"), labels = c("Actual", "Forecast")) +
+  labs(x = "År", y = "Pct. af BNP", color = "Curve") +
+  theme_minimal() +
+  scale_color_manual(values = c(Tyskland = "red", EU = "blue"),
+                     labels = c("EU", "Tyskland")) + # Tilføjede labels
+  guides(color = guide_legend(title = "Curve", override.aes = list(linetype = c("solid", "solid")))) +
+  scale_x_continuous(breaks = seq(2000, 2028, by = 5)) +
+  theme(legend.position = "bottom") # Ændret legend position til bunden
+```
+
+```{r}
+Tyskland <- debt$`Percent of GDP...9`
+EU <- debt$`Percent of GDP...15`[1:24]
+year <- 2000:2028
+df <- data.frame(year, Tyskland)
+eu_df <- data.frame(year = 2000:2023, Tyskland = EU)
+df <- df %>%
+  mutate(data_type = ifelse(year <= 2023, "Faktisk", "Forecast"))
 
 ggplot() +
   geom_line(data = df, aes(x = year, y = Tyskland, linetype = data_type, color = "Tyskland"), show.legend = TRUE) +
@@ -32,43 +57,11 @@ ggplot() +
   scale_linetype_manual(values = c("solid", "dashed"), labels = c("Actual", "Forecast")) +
   labs(x = "År", y = "Pct. af BNP", color = "Curve") +
   theme_minimal() +
-  scale_color_manual(values = c(Tyskland = "blue", EU = "red")) +
-  guides(color = guide_legend(title = "Curve", override.aes = list(linetype = c("solid", "solid"))))+
-  scale_x_continuous(breaks = seq(2000, 2028, by = 5))
+  scale_color_manual(values = c(Tyskland = "red", EU = "blue"),
+                     labels = c("EU", "Tyskland")) + # Tilføjede labels
+  guides(color = guide_legend(title = "Curve", override.aes = list(linetype = c("solid", "solid")))) +
+  scale_x_continuous(breaks = seq(2000, 2028, by = 5)) +
+  theme(legend.position = "bottom") # Ændret legend position til bunden
 
 ```
 
-
-```{r}
-ggplot(debt, aes(x = date01)) +
-  geom_line(aes(y = debt$`Percent of GDP...9`, color = "Tyskland"), linetype = "solid") +
-  geom_line(aes(y = debt$`Percent of GDP...15`, color = "EU"), linetype = "solid") + # Tilføjelse af linje for enhedslønomkostninger
-  labs(title = "",
-       x = "År",
-       y = "Pct. af BNP") +
-  scale_color_manual(values = c("Tyskland" = "blue", "EU" = "red")) +  # Justér farverne efter behov
-  theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  theme(legend.position=c("top")) +
-  labs(color = "Variable") +
-  guides(color = guide_legend(title = NULL))
-```
-
-```{r}
-date1 <- debt$Date...5
-projectionbudget1 <- debt$`Percent of GDP...6`
-date2 <- debt$Date...11
-projection2 <- debt$`Percent of GDP...12`
-ggplot(debt, aes(x = date1, y = projectionbudget1)) +
-  geom_line(color = "blue") +
-  labs(
-       x = "År",
-       y = "Procent af BNP") +
-  theme_minimal()
-ggplot(debt, aes(x = date2, y = projection2)) +
-  geom_line(color = "blue") +
-  labs(
-       x = "År",
-       y = "Procent af BNP") +
-  theme_minimal()
-```
