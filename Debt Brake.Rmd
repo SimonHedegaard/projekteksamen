@@ -37,6 +37,33 @@ ggplot(debt, aes(x = date01)) +
 ```
 
 ```{r}
+ger <- debt$`Percent of GDP...3`
+eu <- debt$`Percent of GDP...18`
+year <- 2000:2028
+df <- data.frame(year, ger)
+df <- df %>%
+  mutate(data_type=ifelse(year<=2023, "Faktisk", "Forecast"))
+eu_df <- data.frame(year = 2000:2023, ger = eu)
+
+ggplot(df, aes(x = year, y = ger, linetype = data_type)) +
+  geom_line(color = c("blue")) +
+  scale_linetype_manual(values = c("solid", "dashed")) +
+  labs(title = "Data and Forecast", x = "Year", y = "Value") +
+  theme_minimal()
+geom_line(data=eu_df,aes(x=year, y=ger), color="red")
+```
+
+```{r}
+ggplot() +
+  geom_line(data = df, aes(x = year, y = ger, linetype = data_type), color = c("blue")) +  # Adjust colors as needed
+  geom_line(data = eu, aes(x = year, y = eu), color = "red") +  # Add another line
+  scale_linetype_manual(values = c("solid", "dashed")) +  # Adjust linetypes as needed
+  labs(title = "Data and Forecast", x = "Year", y = "Value") +
+  theme_minimal()
+```
+
+
+```{r}
 ggplot(debt, aes(x = date01)) +
   geom_line(aes(y = debt$`Percent of GDP...9`, color = "Tyskland"), linetype = "solid") +
   geom_line(aes(y = debt$`Percent of GDP...15`, color = "EU"), linetype = "solid") + # Tilføjelse af linje for enhedslønomkostninger
