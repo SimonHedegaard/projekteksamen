@@ -1,0 +1,116 @@
+---
+title: "Multiplikator"
+output: html_document
+date: "2024-05-11"
+---
+
+```{r}
+library(readxl)
+data <- read_excel("Makroøkonomisk projekt.xlsx", sheet = "Multiplikator")
+År<-data$Year
+PTC<-data$`Final consumption expenditure (% of GDP)`
+PTI<-data$`Imports of goods and services (% of GDP)`
+Tax_to_gdp<-data$`Tax revenue (% of GDP)`
+```
+
+```{r}
+# Plot med y-akse justeret ved hjælp af ylim
+plot(PTC, x=År, type = "l", col = "blue", xlab = "År", ylab = "Udvikling i pct.", ylim = c(0, 130))
+lines(PTI, x=År, type = "l", col = "green")
+lines(Tax_to_gdp, x=År, type = "l", col = "yellow")
+grid()
+
+# Tilføj en legend
+legend("topleft", legend = c("PTC_change", "PTI_change", "Tax_change"), col = c("blue", "green", "yellow"), lty = 1)
+```
+
+
+```{r}
+# Beregning af ændringsraterne for PTC, PTI og Tax variablerne
+PTC_change<- 100 * ((PTC - lag(PTC, 1)) / lag(PTC, 1))
+PTI_change <- 100 * ((PTI - lag(PTI, 1)) / lag(PTI, 1))
+Tax_change <- 100 * ((Tax_to_gdp - lag(Tax_to_gdp, 1)) / lag(Tax_to_gdp, 1))
+
+# Plot med y-akse justeret ved hjælp af ylim
+plot(PTC_change, x=År, type = "l", col = "blue", xlab = "År", ylab = "Udvikling i pct.", ylim = c(-20, 20))
+lines(PTI_change, x=År, type = "l", col = "green")
+lines(Tax_change, x=År, type = "l", col = "yellow")
+abline(h = 0, col = "red")
+grid()
+
+# Tilføj en legend
+legend("bottomleft", legend = c("PTC_change", "PTI_change", "Tax_change"), col = c("blue", "green", "yellow"), lty = 1)
+```
+
+
+```{r}
+
+# Plot med y-akse justeret ved hjælp af ylim
+plot(PTC_change, x=År, type = "l", col = "blue", xlab = "År", ylab = "Udvikling i pct.", ylim = c(-20, 20))
+lines(PTI_change, x=År, type = "l", col = "green")
+lines(Tax_change, x=År, type = "l", col = "yellow")
+abline(h = 0, col = "red")
+grid()
+
+# Tilføj en legend
+legend("bottomleft", legend = c("PTC_change", "PTI_change", "Tax_change"), col = c("blue", "green", "yellow"), lty = 1)
+```
+
+```{r}
+#Plot med y-akse justeret ved hjælp af ylim
+plot(PTC, x=År, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(0, 100))
+lines(PTI, x=År, type = "l", col = "green")
+lines(Tax_to_gdp, x=År, type = "l", col = "yellow")
+grid()
+```
+
+#trend med alle
+```{r}
+# Opret en lineær model for hver variabel
+model_PTC <- lm(PTC ~ Year, data = data)
+model_PTI <- lm(PTI ~ Year, data = data)
+model_Tax <- lm(Tax_to_gdp ~ Year, data = data)
+
+# Plot ændringerne og tilføj trendlinjer
+plot(data$Year, PTC, type = "l", col = "blue", xlab = "Year", ylab = "Change", ylim = c(0, 105))
+lines(data$Year, PTI, type = "l", col = "green")
+lines(data$Year, Tax_to_gdp, type = "l", col = "yellow")
+abline(model_PTC, col = "blue", lty = 2)
+abline(model_PTI, col = "green", lty = 2)
+abline(model_Tax, col = "yellow", lty = 2)
+grid()
+# Tilføj en legend
+legend("topright", legend = c("PTC_change", "PTI_change", "Tax_change", "PTC_trend", "PTI_trend", "Tax_trend"), col = c("blue", "green", "yellow", "blue", "green", "yellow"), lty = c(1, 1, 1, 2, 2, 2))
+```
+
+#PTC trend
+```{r}
+plot(data$Year, PTC, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(70, 85))
+abline(model_PTC, col = "red", lty = 2)
+grid()
+legend("topright", legend = c("MPC", "MPC_trend"), col = c("blue", "red"), lty = c(1, 2))
+```
+
+
+
+
+#MPI trend
+```{r}
+plot(data$Year, PTI, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(10, 60))
+abline(model_PTI, col = "red", lty = 2)
+grid()
+legend("topright", legend = c("MPI", "MPI_trend"), col = c("blue", "red"), lty = c(1, 2))
+```
+
+#skat trend
+```{r}
+plot(data$Year, Tax_to_gdp, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(8, 14))
+abline(model_Tax, col = "red", lty = 2)
+grid()
+legend("topright", legend = c("T", "T_trend"), col = c("blue", "red"), lty = c(1, 2))
+```
+
+
+
+
+
