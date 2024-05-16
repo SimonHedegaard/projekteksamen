@@ -191,4 +191,8 @@ godtforsøg <- lm(gdp_yearago~exp+lag(G,1)+lag(USA,1)+eurozone_pct_year+lag(chin
 summary(godtforsøg)
 ```
 
+```{r}
+inf_reg <- lm(gdp_yearago~exp+lag(rente,6)+lag(ULC_year_ago,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+lag(inf,2)+lag(I(inf^2),2))
+summary(inf_reg)
+```
 
