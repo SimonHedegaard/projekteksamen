@@ -40,4 +40,7 @@ plot(BNP.hp$cycle,
 abline(h=0)
 grid()
 ```
+```{r}
+cor(import[1:96], exp[1:96])
+```
 
