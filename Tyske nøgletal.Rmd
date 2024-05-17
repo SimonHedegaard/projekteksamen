@@ -164,6 +164,10 @@ ggplot(DataTyskland, aes(x = Date)) +
 
 
 
+Dansk eksport og import
+```{r}
+
+```
 
 
 
