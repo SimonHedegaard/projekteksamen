@@ -12,6 +12,7 @@ DataTyskland <- read_excel("Makroøkonomisk projekt.xlsx")
 
 ```{r}
 GDP_year_ago<-DataTyskland$`Real GDP percent year ago`
+GDP<-DataTyskland$gdp_pct_change
 Unemployment<-DataTyskland$unemp
 HPI<-DataTyskland$`HCIP: growth same period previous year`
 Rente<-DataTyskland$`Interest Rate (10-year Goverment Bond Yields)`
@@ -27,7 +28,7 @@ Produktivitet<-DataTyskland$`Productivity output per hour worked (mining and man
 DataTyskland$Date <- as.Date(DataTyskland$Date)
 
 # Opret ggplot-objekt og plot grafen
-ggplot(DataTyskland, aes(x = Date, y = GDP_year_ago)) +
+ggplot(DataTyskland, aes(x = Date, y = GDP)) +
   geom_line(color = "blue") +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
   labs(title = "",
@@ -93,11 +94,14 @@ ggplot(DataTyskland, aes(x = Date, y = Import)) +
        y = "%") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
 ```
+```{r}
+arbejdskraftenhedsomkostninger
+```
 
 
 ```{r}
 # Opret ggplot-objekt og plot grafen
-ggplot(DataTyskland, aes(x = Date, y = arbejdskraftenhedsomkostninger)) +
+ggplot(DataTyskland, aes(x = Date, y = ULC<-DataTyskland$`ULC pct change previous period`)) +
   geom_line(color = "blue") +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
   labs(title = "",
@@ -143,6 +147,9 @@ ggplot(DataTyskland, aes(x = Date)) +
   guides(color = guide_legend(title = NULL))
 ```
 
+```{r}
+ULC<-DataTyskland$`ULC pct change previous period`
+```
 
 
 
