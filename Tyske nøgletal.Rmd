@@ -12,8 +12,12 @@ DataTyskland <- read_excel("Makroøkonomisk projekt.xlsx")
 
 ```{r}
 GDP_year_ago<-DataTyskland$`Real GDP percent year ago`
+<<<<<<< HEAD
 GDP<-DataTyskland$gdp_pct_change
 Unemployment<-DataTyskland$unemp
+=======
+Unemployment<-DataTyskland$unemp; Unemp_euro<- DataTyskland$`Unemp eurozone`
+>>>>>>> c0bc7f451f08df36d0389538a65d48a945246b4a
 HPI<-DataTyskland$`HCIP: growth same period previous year`
 Rente<-DataTyskland$`Interest Rate (10-year Goverment Bond Yields)`
 Eksport<-DataTyskland$`Real Export - % change from year ago`
@@ -23,6 +27,8 @@ valutakurs<-DataTyskland$`exchange rate 1 EUR to USD`
 Produktivitet<-DataTyskland$`Productivity output per hour worked (mining and manufacturing)`
 ```
 
+
+GDP Year ago
 ```{r}
 # Konverter datoer til korrekt format
 DataTyskland$Date <- as.Date(DataTyskland$Date)
@@ -39,17 +45,26 @@ ggplot(DataTyskland, aes(x = Date, y = GDP)) +
 ```
 
 
+
+Unemployment
 ```{r}
-# Opret ggplot-objekt og plot grafen
-ggplot(DataTyskland, aes(x = Date, y = Unemployment)) +
-  geom_line(color = "blue") +
+ggplot(DataTyskland, aes(x = Date)) +
+  geom_line(aes(y = Unemployment, color = "Tyskland")) +
+  geom_line(aes(y = Unemp_euro, color = "Eurozonen")) +
   labs(title = "",
        x = "År",
-       y = "%") +
-  theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
+       y = "%",
+       color = "") +
+  scale_color_manual(values = c("Tyskland" = "blue", "Eurozonen" = "red")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom")
 ```
 
 
+
+HICP
 ```{r}
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = HPI)) +
@@ -62,6 +77,8 @@ ggplot(DataTyskland, aes(x = Date, y = HPI)) +
 ```
 
 
+
+Rente
 ```{r}
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = Rente)) +
@@ -72,6 +89,9 @@ ggplot(DataTyskland, aes(x = Date, y = Rente)) +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
 ```
 
+
+
+Eksport
 ```{r}
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = Eksport)) +
@@ -84,6 +104,8 @@ ggplot(DataTyskland, aes(x = Date, y = Eksport)) +
 ```
 
 
+
+Import
 ```{r}
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = Import)) +
@@ -99,6 +121,8 @@ arbejdskraftenhedsomkostninger
 ```
 
 
+
+ULC
 ```{r}
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = ULC<-DataTyskland$`ULC pct change previous period`)) +
@@ -111,6 +135,8 @@ ggplot(DataTyskland, aes(x = Date, y = ULC<-DataTyskland$`ULC pct change previou
 ```
 
 
+
+Valutakurs
 ```{r}
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = valutakurs)) +
@@ -122,6 +148,8 @@ ggplot(DataTyskland, aes(x = Date, y = valutakurs)) +
 ```
 
 
+
+Produktivitet
 ```{r}
 # Opret ggplot-objekt og plot grafen
 ggplot(DataTyskland, aes(x = Date, y = produktivitet)) +
@@ -132,6 +160,9 @@ ggplot(DataTyskland, aes(x = Date, y = produktivitet)) +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
 ```
 
+
+
+ULC
 ```{r}
 ggplot(DataTyskland, aes(x = Date)) +
   geom_line(aes(y = eksport, color = "BNP pct ændring"), linetype = "solid") +
@@ -153,6 +184,7 @@ ULC<-DataTyskland$`ULC pct change previous period`
 
 
 
+Inflation
 ```{r}
 ggplot(DataTyskland, aes(x = Date)) +
   geom_line(aes(y = rente, color = "Rente i pct"), linetype = "solid") +
@@ -171,6 +203,59 @@ ggplot(DataTyskland, aes(x = Date)) +
 
 
 
+Dansk eksport og import data
+```{r}
+data <- read_excel("Makroøkonomisk Projekt.xlsx")
+DK_exp <- data$`Dansk Eksport til Tyskland`
+DK_imp <- data$`Dansk Import fra Tyskland`
+DK_exp_yearly <- data$`Sum af Dansk Eksport til Tyskland`
+DK_imp_yearly <- data$`Sum af Dansk Import fra Tyskland`
+```
+
+Graf med dansk eksport og import i mio. kr. til Tyskland
+```{r}
+plot(DK_exp_yearly[1:24], type="l", col="blue", ylim=c(70000,180000), xlab="År",ylab="Mio. kr", x=data$Rækkemærkater[1:24])
+lines(DK_imp_yearly[1:24], type="l", col="red", x=data$Rækkemærkater[1:24])
+grid(lty=10000, lwd=1, col="gray")
+legend(x="topleft",legend=c("Eksport", "Import"),lty=c(1,1), col=c(4, 2))
+```
 
 
+Data for danske samarbejdspartnere
+```{r}
+data_dk <- read_excel("Makroøkonomisk projekt.xlsx")
+Tyskland <- data_dk$`Sum af Tyskland`; Rusland <- data_dk$`Sum af Rusland`; USA <- data_dk$`Sum af USA`; Kina <- data_dk$`Sum af Kina`; Sverige <- data_dk$`Sum af Sverige`; Holland <- data_dk$`Sum af Nederlandene`; Frankrig <- data_dk$`Sum af Frankrig` ; Storbritannien<- data_dk$`Sum af Storbritannien`; Norge <- data_dk$`Sum af Norge`
+```
+
+
+
+```{r}
+library(ggplot2)
+Year = 2000:2023
+ggplot(data_dk, aes(x = Year)) +
+  geom_line(aes(y = Norge, color = "Norge")) +
+  geom_line(aes(y = Tyskland, color = "Tyskland"), linewidth = 1.5) +
+  geom_line(aes(y = USA, color = "USA")) +
+  geom_line(aes(y = Frankrig, color = "Frankrig")) +
+  geom_line(aes(y = Kina, color = "Kina")) +
+  geom_line(aes(y = Rusland, color = "Rusland")) +
+  geom_line(aes(y = Holland, color = "Holland")) +
+  geom_line(aes(y = Storbritannien, color = "Storbritannien")) +
+  geom_line(aes(y = Sverige, color = "Sverige")) +
+  labs(y = "Værdi", x = "År", color = "Land") +
+  scale_x_continuous(breaks = seq(2000, 2023, by = 2)) +  # Indstil x-akse etiketter
+  theme_minimal()
+```
+
+```{r}
+plot(Year, Tyskland[1:24], type="l", linewidth=4,col=1,xlim=c(2000,2023), ylim=c(5000,130000), ylab="Eksport i mio. kr.", xlab="År")
+lines(Year, Kina[1:24],type="l", col=2)
+lines(Year, Norge[1:24],type="l", col=3)
+lines(Year, Frankrig[1:24],type="l", col=4)
+lines(Year, Holland[1:24],type="l", col=5)
+lines(Year, Sverige[1:24],type="l", col=6)
+lines(Year, USA[1:24],type="l", col=7)
+lines(Year, Storbritannien[1:24], type="l", col=8)
+legend(x="topleft",legend=c("Tyskland", "Kina", "Norge", "Frankrig", "Holland", "Sverige", "USA", "Storbritannien"),lty=c(1,1), col=c(1, 2,3,4,5,6,7), cex=0.6)
+```
 
