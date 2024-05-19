@@ -237,7 +237,7 @@ ggplot(data_dk, aes(x = Year)) +
 ```
 
 ```{r}
-plot(Year, Tyskland[1:24], type="l", linewidth=4,col=1,xlim=c(2000,2023), ylim=c(5000,130000), ylab="Eksport", xlab="År")
+plot(Year, Tyskland[1:24], type="l", linewidth=4,col=1,xlim=c(2000,2023), ylim=c(5000,130000), ylab="Eksport i mio. kr.", xlab="År")
 lines(Year, Kina[1:24],type="l", col=2)
 lines(Year, Norge[1:24],type="l", col=3)
 lines(Year, Frankrig[1:24],type="l", col=4)
