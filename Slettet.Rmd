@@ -18,8 +18,6 @@ plot(nytforsøg2)
 ```
 
 
-
-
 #Forsøg med LAD
 ```{r}
 library(quantreg); library(stargazer)
@@ -112,7 +110,6 @@ mod_2000_2010<-lm(gdp_yearago[1:45]~exp[1:45]+lag(rente[1:45],6)+lag(ULC_year_ag
 summary(mod_2000_2010)
 bptest(mod_2000_2010)
 jarque.bera.test(mod_2000_2010$residuals)
-shapiro.test(mod_2000_2010$residuals)
 screenreg(list(model1=mod_2000_2010), custom.coef.names=names, custom.model.names=c("2000-2010"))
 ```
 
@@ -122,23 +119,18 @@ mod_2003_2013<-lm(gdp_yearago[13:56]~exp[13:56]+lag(rente[13:56],6)+lag(ULC[13:5
 summary(mod_2003_2013)
 bptest(mod_2003_2013)
 jarque.bera.test(mod_2003_2013$residuals)
-shapiro.test(mod_2003_2013$residuals)
 screenreg(list(model1=mod_2003_2013), custom.coef.names=names, custom.model.names=c("2003-2013"))
 ```
-
-
 
 ##Standard model 2006-2016
 ```{r}
 mod_2006_2016<-lm(gdp_yearago[25:68]~exp[25:68]+lag(rente[25:68],6)+lag(ULC[25:68],3)+lag(china[25:68],2)+lag(USA[25:68],1)+eurozone_pct_year[25:68]+lag(energy[25:68],1))
+coeftest_2006_2016 <- coeftest(mod_2006_2016, vcov=vcovHC(mod_2006_2016,type="HC0"))
 summary(mod_2006_2016)
 bptest(mod_2006_2016)
 jarque.bera.test(mod_2006_2016$residuals)
-shapiro.test(mod_2006_2016$residuals)
-screenreg(list(model1=mod_2006_2016), custom.coef.names=names, custom.model.names=c("2006-2016"))
+screenreg(list(model1=coeftest_2006_2016), custom.coef.names=names, custom.model.names=c("2006-2016"))
 ```
-
-
 
 ##Standard model 2009-2019
 ```{r}
@@ -146,7 +138,6 @@ mod_2009_2019<-lm(gdp_yearago[39:80]~exp[39:80]+lag(rente[39:80],6)+lag(ULC[39:8
 summary(mod_2009_2019)
 bptest(mod_2009_2019)
 jarque.bera.test(mod_2009_2019$residuals)
-shapiro.test(mod_2009_2019$residuals)
 screenreg(list(model1=mod_2009_2019), custom.coef.names=names, custom.model.names=c("2009-2019"))
 ```
 
@@ -158,7 +149,6 @@ mod_2012_2023<-lm(gdp_yearago[49:96]~exp[49:96]+lag(rente[49:96],6)+lag(ULC[49:9
 summary(mod_2012_2023)
 bptest(mod_2012_2023)
 jarque.bera.test(mod_2012_2023$residuals)
-shapiro.test(mod_2012_2023$residuals)
 screenreg(list(model1=mod_2012_2023), custom.coef.names=names, custom.model.names=c("2012-2023"))
 ```
 
