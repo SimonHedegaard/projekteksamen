@@ -12,7 +12,7 @@ DataTyskland <- read_excel("Makroøkonomisk projekt.xlsx")
 
 ```{r}
 GDP_year_ago<-DataTyskland$`Real GDP percent year ago`
-GDP_year_ago_euro<-DataTyskland$`Eurozonen: Real GDP growth quarterly previous period`
+GDP_year_ago_euro<-DataTyskland$`New eurozone gdp year ago`
 GDP<-DataTyskland$gdp_pct_change
 Unemployment<-DataTyskland$unemp
 Unemployment<-DataTyskland$unemp; Unemp_euro<- DataTyskland$`Unemp eurozone`
