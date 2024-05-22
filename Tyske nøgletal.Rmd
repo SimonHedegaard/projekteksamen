@@ -12,14 +12,20 @@ DataTyskland <- read_excel("Makroøkonomisk projekt.xlsx")
 
 ```{r}
 GDP_year_ago<-DataTyskland$`Real GDP percent year ago`
+GDP_year_ago_euro<-DataTyskland$`New eurozone gdp year ago`
+GDP<-DataTyskland$gdp_pct_change
+Unemployment<-DataTyskland$unemp
 Unemployment<-DataTyskland$unemp; Unemp_euro<- DataTyskland$`Unemp eurozone`
 HPI<-DataTyskland$`HCIP: growth same period previous year`
+HPI_euro<-DataTyskland$`HCIP: Eurozone growth last year`
 Rente<-DataTyskland$`Interest Rate (10-year Goverment Bond Yields)`
+Rente_euro<-DataTyskland$`Interest Rate: eurzone (10-year Goverment Bond Yields)`
 Eksport<-DataTyskland$`Real Export - % change from year ago`
 Import<-DataTyskland$`Real Import - % change from year ago`
 arbejdskraftenhedsomkostninger<-DataTyskland$`ULC pct change previous period`
 valutakurs<-DataTyskland$`exchange rate 1 EUR to USD`
 Produktivitet<-DataTyskland$`Productivity output per hour worked (mining and manufacturing)`
+
 ```
 
 
@@ -28,15 +34,19 @@ GDP Year ago
 # Konverter datoer til korrekt format
 DataTyskland$Date <- as.Date(DataTyskland$Date)
 
-# Opret ggplot-objekt og plot grafen
-ggplot(DataTyskland, aes(x = Date, y = GDP_year_ago)) +
-  geom_line(color = "blue") +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
+ggplot(DataTyskland, aes(x = Date)) +
+  geom_line(aes(y = GDP_year_ago, color = "Tyskland")) +
+  geom_line(aes(y = GDP_year_ago_euro, color = "Eurozonen")) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +  # Tilføj linjen ved y = 0
   labs(title = "",
        x = "År",
-       y = "%") +
+       y = "%",
+       color = "") +
+  scale_color_manual(values = c("Tyskland" = "blue", "Eurozonen" = "red")) +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom")
 ```
 
 
@@ -59,29 +69,41 @@ ggplot(DataTyskland, aes(x = Date)) +
 
 
 
-HICP
+Rente
 ```{r}
 # Opret ggplot-objekt og plot grafen
-ggplot(DataTyskland, aes(x = Date, y = HPI)) +
-  geom_line(color = "blue") +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
+ggplot(DataTyskland, aes(x = Date)) +
+  geom_line(aes(y = Rente, color = "Tyskland")) +
+  geom_line(aes(y = Rente_euro, color = "Eurozonen")) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +  # Tilføj linjen ved y = 0
   labs(title = "",
        x = "År",
-       y = "%") +
-  theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
+       y = "%",
+       color = "") +
+  scale_color_manual(values = c("Tyskland" = "blue", "Eurozonen" = "red")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom")
 ```
 
 
 
-Rente
+HICP
 ```{r}
-# Opret ggplot-objekt og plot grafen
-ggplot(DataTyskland, aes(x = Date, y = Rente)) +
-  geom_line(color = "blue") +
+ggplot(DataTyskland, aes(x = Date)) +
+  geom_line(aes(y = HPI, color = "Tyskland")) +
+  geom_line(aes(y = HPI_euro, color = "Eurozonen")) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +  # Tilføj linjen ved y = 0
   labs(title = "",
        x = "År",
-       y = "%") +
-  theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
+       y = "%",
+       color = "") +
+  scale_color_manual(values = c("Tyskland" = "blue", "Eurozonen" = "red")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom")
 ```
 
 
@@ -111,13 +133,16 @@ ggplot(DataTyskland, aes(x = Date, y = Import)) +
        y = "%") +
   theme_minimal() + theme(plot.title = element_text(hjust = 0.5))
 ```
+```{r}
+arbejdskraftenhedsomkostninger
+```
 
 
 
 ULC
 ```{r}
 # Opret ggplot-objekt og plot grafen
-ggplot(DataTyskland, aes(x = Date, y = arbejdskraftenhedsomkostninger)) +
+ggplot(DataTyskland, aes(x = Date, y = ULC<-DataTyskland$`ULC pct change previous period`)) +
   geom_line(color = "blue") +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Tilføj linjen ved y = 0
   labs(title = "",
@@ -170,6 +195,9 @@ ggplot(DataTyskland, aes(x = Date)) +
   guides(color = guide_legend(title = NULL))
 ```
 
+```{r}
+ULC<-DataTyskland$`ULC pct change previous period`
+```
 
 
 
