@@ -27,7 +27,7 @@ library(readxl)
 logBNP <- ts(log(data1$`Real Gross Domestic Product for Germany, Millions of Chained 2010 Euros, Quarterly, Seasonally Adjusted`), start = 2000, freq = 4)
 
 # Anvend HP-filter
-BNP.hp <- hpfilter(logBNP, freq = 60000)
+BNP.hp <- hpfilter(logBNP, freq = 6)
 
 # Lav plottet
 plot(BNP.hp)

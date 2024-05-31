@@ -47,7 +47,7 @@ lines(gdp_yearago)
 
 # NYT FORSØG hvor vi finder ud af at det ikke giver mening med hverken inflation eller energy. STANDARD MODEL med højde for robust standard errors korregeret for heteroskedasticity
 ```{r}
-nytforsøg<-lm(gdp_yearago~exp+lag(rente,6)+lag(ULC_year_ago,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+lag(energy,1))
+nytforsøg<-lm(gdp_yearago~exp+lag(rente,6)+lag(ULC_year_ago,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+energy)
 summary(nytforsøg)
 bptest(nytforsøg)
 coeftest <- coeftest(nytforsøg, vcov=vcovHC(nytforsøg,type="HC0")) #ikke vigtig - modellen er homoskedastizity nu
@@ -77,11 +77,10 @@ cor(china[1:95], gdp_yearago[1:95])
 
 #Standard model: År 2000-2008
 ```{r}
-mod_2000<-lm(gdp_yearago[1:33]~exp[1:33]+lag(rente[1:33],6)+lag(ULC_year_ago[1:33],3)+lag(china[1:33],2)+lag(USA[1:33],1)+eurozone_pct_year[1:33]+energy[1:33])
+mod_2000<-lm(gdp_yearago[1:33]~exp[1:33]+lag(rente[1:33],6)+lag(ULC_year_ago[1:33],3)+lag(china[1:33],2)+lag(USA[1:33],1)+eurozone_pct_year[1:33]+lag(inf[1:33],2)+lag(I(inf[1:33]^2),2))
 summary(mod_2000)
 jarque.bera.test(mod_2000$residuals)
 shapiro.test(mod_2000$residuals)
-screenreg(list(model1=mod_2000), custom.coef.names=names, custom.model.names=c("2000-2008"))
 ```
 
 
@@ -95,18 +94,17 @@ plot(mod_2000)
 
 #Standard model 2000-2010
 ```{r}
-mod_2000_2010<-lm(gdp_yearago[1:45]~exp[1:45]+lag(rente[1:45],6)+lag(ULC_year_ago[1:45],3)+lag(china[1:45],2)+lag(USA[1:45],1)+eurozone_pct_year[1:45]+lag(energy[1:45],1))
+mod_2000_2010<-lm(gdp_yearago[1:45]~exp[1:45]+lag(rente[1:45],6)+lag(ULC_year_ago[1:45],3)+lag(china[1:45],2)+lag(USA[1:45],1)+eurozone_pct_year[1:45]+lag(inf[1:45],2)+lag(I(inf[1:45]^2),2))
 summary(mod_2000_2010)
 jarque.bera.test(mod_2000_2010$residuals)
 shapiro.test(mod_2000_2010$residuals)
-screenreg(list(model1=mod_2000_2010), custom.coef.names=names, custom.model.names=c("2000-2010"))
 ```
 
 
 
 #Standard model 2010-2019
 ```{r}
-mod_2010<-lm(gdp_yearago[42:81]~exp[42:81]+lag(rente[42:81],6)+lag(ULC[42:81],3)+lag(china[42:81],2)+lag(USA[42:81],1)+eurozone_pct_year[42:81]+energy[42:81])
+mod_2010<-lm(gdp_yearago[42:81]~exp[42:81]+lag(rente[42:81],6)+lag(ULC[42:81],3)+lag(china[42:81],2)+lag(USA[42:81],1)+eurozone_pct_year[42:81]+lag(inf[42:81],2)+lag(I(inf[42:81]^2),2))
 summary(mod_2010)
 jarque.bera.test(mod_2010$residuals)
 shapiro.test(mod_2010$residuals)
@@ -119,7 +117,7 @@ plot(mod_2010)
 
 #Standard model for 2015Q1-2023Q3
 ```{r}
-mod_2020<-lm(gdp_yearago[62:96]~exp[62:96]+lag(rente[62:96],6)+lag(ULC[62:96],3)+lag(china[62:96],2)+lag(USA[62:96],1)+eurozone_pct_year[62:96]+energy[62:96])
+mod_2020<-lm(gdp_yearago[62:96]~exp[62:96]+lag(rente[62:96],6)+lag(ULC[62:96],3)+lag(china[62:96],2)+lag(USA[62:96],1)+eurozone_pct_year[62:96]+lag(inf[62:96],2)+lag(I(inf[62:96]^2),2))
 summary(mod_2020)
 jarque.bera.test(mod_2020$residuals)
 shapiro.test(mod_2020$residuals)
@@ -127,7 +125,7 @@ shapiro.test(mod_2020$residuals)
 
 
 ```{r}
-screenreg(list("Hele perioden"=nytforsøg, "2000-2008"=mod_2000, "2010-2019"=mod_2010, "2015-2023"=mod_2020), coef.names)
+screenreg(list("Hele perioden"=nytforsøg, "2000-2008"=mod_2000, "2010-2019"=mod_2010, "2015-2023"=mod_2020))
 ```
 
 
@@ -139,7 +137,7 @@ lines(china, type="l", col="green")
 
 #Standard model 2003-2013
 ```{r}
-mod_2003_2013<-lm(gdp_yearago[13:56]~exp[13:56]+lag(rente[13:56],6)+lag(ULC[13:56],3)+lag(china[13:56],2)+lag(USA[13:56],1)+eurozone_pct_year[13:56]+energy[13:56])
+mod_2003_2013<-lm(gdp_yearago[13:56]~exp[13:56]+lag(rente[13:56],6)+lag(ULC[13:56],3)+lag(china[13:56],2)+lag(USA[13:56],1)+eurozone_pct_year[13:56]+lag(inf[13:56],2)+lag(I(inf[13:56]^2),2))
 summary(mod_2003_2013)
 jarque.bera.test(mod_2010$residuals)
 shapiro.test(mod_2010$residuals)
@@ -152,7 +150,7 @@ shapiro.test(mod_2010$residuals)
 
 # Forsøg med eksport som afhængig variabel, udland
 ```{r}
-reg_eksport<-lm(exp~lag(china,2)+eurozone_pct_year+lag(USA,1)+energy)
+reg_eksport<-lm(exp~lag(china,2)+eurozone_pct_year+lag(USA,1))
 summary(reg_eksport)
 ```
 
@@ -192,9 +190,5 @@ summary(reg_exp)
 godtforsøg <- lm(gdp_yearago~exp+lag(G,1)+lag(USA,1)+eurozone_pct_year+lag(china,2)+lag(rente,6)+lag(ULC_year_ago,3)+lag(inf,2)+lag(I(inf^2),2))
 summary(godtforsøg)
 ```
-#Inflationsregression
-```{r}
-inf_reg <- lm(gdp_yearago~exp+lag(rente,6)+lag(ULC_year_ago,3)+lag(china,2)+lag(USA,1)+eurozone_pct_year+lag(inf,2)+lag(I(inf^2),2))
-summary(inf_reg)
-```
+
 
