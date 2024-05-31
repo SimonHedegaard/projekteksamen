@@ -8,9 +8,9 @@ date: "2024-05-11"
 library(readxl)
 data <- read_excel("Makroøkonomisk projekt.xlsx", sheet = "Multiplikator")
 År<-data$Year
-PTC<-data$`Final consumption expenditure (% of GDP)`
-PTI<-data$`Imports of goods and services (% of GDP)`
-Tax_to_gdp<-data$`Tax revenue (% of GDP)`
+PTC<-data$`Final consumption expenditure (% of GDP)`[31:53]
+PTI<-data$`Imports of goods and services (% of GDP)`[31:53]
+Tax_to_gdp<-data$Skat_v2[31:53]
 ```
 
 ```{r}
@@ -67,9 +67,9 @@ grid()
 #trend med alle
 ```{r}
 # Opret en lineær model for hver variabel
-model_PTC <- lm(PTC ~ Year, data = data)
-model_PTI <- lm(PTI ~ Year, data = data)
-model_Tax <- lm(Tax_to_gdp ~ Year, data = data)
+model_PTC <- lm(PTC ~ Year[31:53], data = data)
+model_PTI <- lm(PTI ~ Year[31:53], data = data)
+model_Tax <- lm(Tax_to_gdp ~ Year[31:53], data = data)
 
 # Plot ændringerne og tilføj trendlinjer
 plot(data$Year, PTC, type = "l", col = "blue", xlab = "Year", ylab = "Change", ylim = c(0, 105))
@@ -85,7 +85,7 @@ legend("topright", legend = c("PTC_change", "PTI_change", "Tax_change", "PTC_tre
 
 #PTC trend
 ```{r}
-plot(data$Year, PTC, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(70, 85))
+plot(data$Year[31:53], PTC, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(70, 80), xlim=c(2000, 2022))
 abline(model_PTC, col = "red", lty = 2)
 grid()
 legend("topright", legend = c("MPC", "MPC_trend"), col = c("blue", "red"), lty = c(1, 2))
@@ -96,18 +96,18 @@ legend("topright", legend = c("MPC", "MPC_trend"), col = c("blue", "red"), lty =
 
 #MPI trend
 ```{r}
-plot(data$Year, PTI, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(10, 60))
+plot(data$Year[31:53], PTI, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(20, 55), xlim = c(2000,2022))
 abline(model_PTI, col = "red", lty = 2)
 grid()
-legend("topright", legend = c("MPI", "MPI_trend"), col = c("blue", "red"), lty = c(1, 2))
+legend("topleft", legend = c("MPI", "MPI_trend"), col = c("blue", "red"), lty = c(1, 2))
 ```
 
 #skat trend
 ```{r}
-plot(data$Year, Tax_to_gdp, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(8, 14))
+plot(data$Year[31:53], Tax_to_gdp, type = "l", col = "blue", xlab = "År", ylab = "Pct. af BNP", ylim = c(32, 40), xlim = c(2000,2022))
 abline(model_Tax, col = "red", lty = 2)
 grid()
-legend("topright", legend = c("T", "T_trend"), col = c("blue", "red"), lty = c(1, 2))
+legend("topleft", legend = c("T", "T_trend"), col = c("blue", "red"), lty = c(1, 2))
 ```
 
 
