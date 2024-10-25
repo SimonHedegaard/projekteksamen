@@ -11,10 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(readxl)
-TASK <- read_csv("TASK_mikro5.xlsx")
+TASK <- read_excel("TASK_mikro5.xls")
+tal <- as.integer(TASK$ISCO_DA/1000)
+tal
+table(tal)
 ```
 
-```{r}
 
-```
 
