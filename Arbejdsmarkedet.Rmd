@@ -33,20 +33,21 @@ ggplot(df, aes(x = yr, y = sz), ylim=c(35000000,55000000)) +
   labs(x = "Årstal", y = "Arbejdsstyrken i personer") +
   theme_minimal()
 ```
-
+Mangel på arbejdskraft, 2026
 ```{r}
 ggplot(lafo, aes(x=br, y=ma))+
-  geom_bar(stat="identity", fill="blue")+
+  geom_bar(stat="identity", fill="blue", width=0.5)+
   labs(x="Branche", y="Mangel i personer")+ 
-  theme_minimal()
+  theme_minimal()+
+  theme(axis.text.x=element_text(size=11.5))
 ```
 
 
 Virksomheder der oplever mangel på arbejdskraft
 ```{r}
 ggplot(lafo, aes(x=vi, y=pct))+
-  geom_bar(stat="identity", fill="blue")+
-  labs(x="Industri", y="Pct. af virksomheder")+ 
+  geom_bar(stat="identity", fill="red", width=0.5)+
+  labs(x="Industri", y="Pct. af virksomheder")+
   theme_minimal()
 ```
 
