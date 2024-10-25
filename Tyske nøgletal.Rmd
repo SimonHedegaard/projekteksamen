@@ -106,8 +106,6 @@ ggplot(DataTyskland, aes(x = Date)) +
         legend.position = "bottom")
 ```
 
-
-
 Eksport
 ```{r}
 # Opret ggplot-objekt og plot grafen
