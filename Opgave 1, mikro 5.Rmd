@@ -9,3 +9,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(readxl)
+TASK <- read_csv("TASK_mikro5.xlsx")
+```
+
+```{r}
+
+```
+
