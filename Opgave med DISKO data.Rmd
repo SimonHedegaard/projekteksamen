@@ -9,4 +9,23 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Hhah
+DISKO
+
+▶ Her bruger vi DISKO-data til en lille pause fra slides
+
+▶ Pdf’en om dataopgaver på moodle indeholder info om
+DISKO
+
+▶ Sæt jer ind i data ved hjælp af pdf’en og svar p˚a
+følgende to spørgsm˚al ud fra DISKO:
+
+1. Hvilke variable i DISKO kan bruges til at beskrive
+produktinnovation?
+
+
+
+2. Hvor stor en andel af danske virksomheder havde
+produktinnovation 1993-1995?
+
+2.1 Ud af disse, hvilken andel var radikal produktinnovation
+(resten skulle gerne være trinvis produktinnovation)
