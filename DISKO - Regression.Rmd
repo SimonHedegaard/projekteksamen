@@ -1,0 +1,75 @@
+---
+title: "DISKO Opgave - Regression"
+author: "Viktor Damm"
+date: "2024-11-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Opgave A - spg. 1 af 4
+
+▶ Redegør for begreberne “innovation” og
+“produktinnovation”. Herunder:
+
+
+
+▶ Foreslå hvordan produktinnovation kan operationaliseres
+i DISKO-datasættet.
+
+▶ Vælg en operationalisering s˚a hver virksomhed er enten
+innovativ (1) eller ej (0)
+
+▶ Indsæt en tabel der viser hvor mange virksomheder i
+DISKO-datasættet, der havde produktinnovation i
+1993-1995 ifølge jeres definition
+
+Opgave B - spg. 2 af 4
+
+▶ Diskuter hvilke faktorer, der er forbundet med, at en
+virksomhed oftere indføre nye varer eller tjenester.
+
+▶ En af disse faktorer er viden (humankapital) i
+medarbejderne. Denne kan være tilegnet formelt ved
+uddannelse eller uformelt gennem erfaring.
+Virksomheden kan understøtte akkumuleringen af
+erfaring gennem m˚aden hvorp˚a arbejdet er organiseret.
+
+Opgave C - spg. 3 af 4
+
+▶ Test følgende to hypoteser:
+
+H.1 Arbejdets organisering kan gøre virksomheden mere
+(produkt)innovativ
+H.2 Formel uddannelse kan gøre virksomheden mere
+(produkt)innovativ
+
+▶ Lav en regression. Brug lm() kommandoen i R
+
+▶ Den afhængige variabel er jeres m˚al for
+produktinnovation i opgave A
+
+▶ De forklarende variable er m˚al for arbejdets organisering
+(variable S6A-S6G p˚a slide 29) og formel uddannelse
+(S16, S18A-S18C p˚a slide 28). Det giver mange
+muligheder. Vælg den I synes er bedst.
+
+▶ Det er ikke (her) nødvendigt med yderligere forklarende
+variable
+
+Opgave D - spg. 4 af 4
+
+▶ Præsenter og beskriv resultaterne fra
+regressionsmodellen i opgave D
+
+▶ Kan hypoteserne forkastes eller ej?
+
+▶ Hvis tid: Diskuter analyse kritisk. Der kan være rent
+økonometriske problemer, som ville være vigtige i et
+semesterprojekt, men her skal I fokusere p˚a problemer
+relateret til innovationsøkonomisk teori. Det kunne
+være omitted variable bias. Er der fordele/ulemper ved
+jeres operationalisering af formel uddannelse og
+arbejdets organisering i spørgsm˚al C?
