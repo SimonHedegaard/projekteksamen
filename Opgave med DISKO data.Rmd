@@ -67,3 +67,13 @@ Yes
 2.1 Ud af disse, hvilken andel var radikal produktinnovation
 (resten skulle gerne være trinvis produktinnovation)
 
+```{r}
+rad <- DISKO$S21A
+table(rad)
+```
+```{r}
+sum_rad <- 743+195+28+934
+Rad1 <- 743/sum_rad; Rad1; Rad2<- 195/sum_rad; Rad2
+```
+
+10,3% af virksomhederne har lavet radikalproduktinnovation. (For Danmark)
