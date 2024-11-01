@@ -21,7 +21,6 @@ DISKO
 ▶ Sæt jer ind i data ved hjælp af pdf’en og svar p˚a
 følgende to spørgsm˚al ud fra DISKO:
 
-<<<<<<< HEAD
 #1. Hvilke variable i DISKO kan bruges til at beskrive produktinnovation?
 
 - S20: Has the firm introduced new products/services
@@ -68,5 +67,3 @@ Yes
 2.1 Ud af disse, hvilken andel var radikal produktinnovation
 (resten skulle gerne være trinvis produktinnovation)
 
-
->>>>>>> f8d6dae300676b99a7efe47165a5792def1b4713
