@@ -2,9 +2,7 @@
 title: "Mikro 5, opgave 1"
 author: "Johan Bysted"
 date: "`r Sys.Date()`"
-output:
-  pdf_document: default
-  html_document: default
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -88,4 +86,6 @@ Teksten beskriver at følgende jobtyper har risiko for at blive automatiseret:
 
 0.D
 - Størstedelen af kode E i oversigten og jobs involverer jobs der har med social interaktion at gøre, så kode E beskriver i stor grad de karakteristika i forhold til denne jobtype. 
+
+
 

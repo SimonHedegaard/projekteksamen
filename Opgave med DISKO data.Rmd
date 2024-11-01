@@ -29,11 +29,14 @@ improvements of existing products?
 
 - S1: Has the firm carried through important
 organisational changes during the period 1993-1995?
+
 - S4: Have changes of the firm’s management structure
 taken place during the period 1993-1995?
+
 - S23A1: Has the firm introduced new technology based
 upon information and communication technology during
 the period 1993-1995?
+
 - S23B1: Has the firm introduced other forms of new
 technology during the period 1993-1995?
 Kodning: 1: Ja, 2: Nej, 8/9: Vil ikke svare/Ved ikke
@@ -66,4 +69,6 @@ Yes
 
 2.1 Ud af disse, hvilken andel var radikal produktinnovation
 (resten skulle gerne være trinvis produktinnovation)
+
+
 
