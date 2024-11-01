@@ -27,5 +27,17 @@ produktinnovation?
 2. Hvor stor en andel af danske virksomheder havde
 produktinnovation 1993-1995?
 
+```{r}
+table(DISKO$S20)
+```
+```{r}
+S20 <- 966+886+1+17+30
+Yes <- 966/S20; No <- 886/S20; dokno <- 18/S20; Na <- 30/S20
+Yes
+```
+50,8% havde produktinnovation.
+
 2.1 Ud af disse, hvilken andel var radikal produktinnovation
 (resten skulle gerne være trinvis produktinnovation)
+
+
