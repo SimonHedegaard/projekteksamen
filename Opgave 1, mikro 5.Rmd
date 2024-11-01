@@ -2,7 +2,9 @@
 title: "Mikro 5, opgave 1"
 author: "Johan Bysted"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
