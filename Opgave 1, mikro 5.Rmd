@@ -10,16 +10,66 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-library(readxl)
-TASK <- read_excel("TASK_mikro5.xls")
-tal <- as.integer(TASK$ISCO_DA/1000)
-tal
-table <- table(tal)
-```
+# Der er forskellige måder at skrive kode i R. Jeg bruger gerne tidyverse.
+#Det har betydning for hvordan man arbejder med data - laver nye variable, fjerner observationer osv.
+#Spørg mig til ChatGPT hvis du har brug for hjælp
 
-```{r}
-data_length <- length(tal)
-table[1:9] <- table[1:9] / data_length
-print(table)
+library(tidyverse)
+
+# For 3-4 stykker virker csv-filen ikke. Brug i stedet xls-filen, som også er på moodle
+library(readxl)
+raw.data <- read_excel("TASK_mikro5.xls")
+
+
+#Man kan lave en variabel for første ciffer ved at definere den ud fra intervaller
+#Her er kun to af intervallerne - ikke alle ni.
+raw.data <- raw.data %>%
+  mutate(occu=case_when(ISCO_NU>=2000&ISCO_NU<3000~2,
+                        ISCO_NU>=3000&ISCO_NU<4000~3))
+
+table(raw.data$occu)
+
+#Man kan også bruge floor-kommandoen til at skære decimalerne væk efter man har divideret med 1000
+new.dat <- raw.data %>%
+  mutate(one.dig=floor(ISCO_NU/1000))
+
+table(new.dat$one.dig)
+#Hovsa! Der er rigtig mange 9.
+#Prøv at inspicere værdierne.
+# Det ser ud til (hos Danmarks Statistik), at værdier over 9700 ikke burde eksistere
+
+new.dat <- new.dat %>%
+  filter(ISCO_NU<9700)
+
+# Divider med antal rækker for at få procent
+table(new.dat$one.dig)/nrow(new.dat)
+
+# Værdien 0 observeres også. Det drejer sig om en enkelt værnepligtig, som har sneget sig med i data.
+
+# I stedet for at printe så gemmer vi data, og så smider vi den værnepligtige ud
+# Desuden kalder R automatisk variablen fra tabellen for "Var1". Det ændres tilbage til one.dig
+one.dig.table <- as.data.frame(table(new.dat$one.dig)/nrow(new.dat)) %>%
+  filter(Var1!=0) %>%
+  rename(one.dig=Var1)
+
+#Indtaster intervalmidtpunkterne fra dagens tekst i en ny variabel, som jeg kalder pct.auto
+one.dig.table <- one.dig.table %>%
+  mutate(pct.auto=case_when(one.dig==1~7.5,
+                            one.dig==2~10,
+                            one.dig==3~30,
+                            one.dig==4~55,
+                            one.dig==5~30,
+                            one.dig==6~22.5,
+                            one.dig==7~45,
+                            one.dig==8~65,
+                            one.dig==9~47.5))
+
+#Middelværdien for pct auto vægtet efter andele i beskæftigelsen.
+weighted.mean(one.dig.table$pct.auto,one.dig.table$Freq)
+
+#TASK er repræsentative for beskæftigede i Danmark når man anvender vægten pervgt.
+#Hvis vægten for en række er fx 1400 så betyder det, at rækken repræsenterer 1400 personer i arbejde
+#Det er vigtigt at bruge vægtene hvis I vil arbejde med TASK fx til bachelorprojektet, men det er ikke nødvendigt i kurset her.
+#Når I skal bruge vægtene kan I med fordel bruge pakken survey
 ```
 
