@@ -36,7 +36,7 @@ new.dat <- raw.data %>%
 table(new.dat$one.dig)
 #Hovsa! Der er rigtig mange 9.
 #Prøv at inspicere værdierne.
-# Det ser ud til (hos Danmarks Statistik), at værdier over 9700 ikke burde eksistere
+#Det ser ud til (hos Danmarks Statistik), at værdier over 9700 ikke burde eksistere
 
 new.dat <- new.dat %>%
   filter(ISCO_NU<9700)
@@ -72,4 +72,18 @@ weighted.mean(one.dig.table$pct.auto,one.dig.table$Freq)
 #Det er vigtigt at bruge vægtene hvis I vil arbejde med TASK fx til bachelorprojektet, men det er ikke nødvendigt i kurset her.
 #Når I skal bruge vægtene kan I med fordel bruge pakken survey
 ```
+
+0.A og 0.B
+
+I ovenstående kode kan svarene på spørgsmål 1 og 2 ses. Svarene fra 0 til 9 er hvor stor en procentdel der findes af de forskellige jobs i Danmark. Lige knap 28 procent af jobs i Danmark forventes at blive automatiseret de næste 2 årtier. 
+
+0.C
+
+Teksten beskriver at følgende jobtyper har risiko for at blive automatiseret: 
+- Lowest wage jobs --> " the progression to the next batch of jobs, and the one after that, will roughly follow an upward-income trajectory, with the lowest wage jobs being automated first, and the highest wage jobs being automated last."
+- Derudover beskriver teksten at disse jobtyper er i højrisiko --> "The study lists two dozen job categories in order of risk, and the breakdown essentially boils down to this: foodservice, production, office and administrative support, farming/fishing/forestry, transportation and material moving, construction and extraction, and installation/maintenance/repair appear to round out the most high-risk occupations."
+- Derudover så beskriver teksten også, at jobs der involverer social interaktion er meget udsat. 
+
+0.D
+
 
