@@ -14,7 +14,12 @@ library(readxl)
 TASK <- read_excel("TASK_mikro5.xls")
 tal <- as.integer(TASK$ISCO_DA/1000)
 tal
-table(tal)
+table <- table(tal)
 ```
 
+```{r}
+data_length <- length(tal)
+table[1:9] <- table[1:9] / data_length
+print(table)
+```
 
