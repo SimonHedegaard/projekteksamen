@@ -19,13 +19,27 @@ DISKO
 ▶ Sæt jer ind i data ved hjælp af pdf’en og svar p˚a
 følgende to spørgsm˚al ud fra DISKO:
 
-1. Hvilke variable i DISKO kan bruges til at beskrive
-produktinnovation?
+#1. Hvilke variable i DISKO kan bruges til at beskrive produktinnovation?
 
+- S20: Has the firm introduced new products/services
+during the period 1993-1995 when excepting minor
+improvements of existing products?
 
+- S1: Has the firm carried through important
+organisational changes during the period 1993-1995?
+- S4: Have changes of the firm’s management structure
+taken place during the period 1993-1995?
+- S23A1: Has the firm introduced new technology based
+upon information and communication technology during
+the period 1993-1995?
+- S23B1: Has the firm introduced other forms of new
+technology during the period 1993-1995?
+Kodning: 1: Ja, 2: Nej, 8/9: Vil ikke svare/Ved ikke
 
-2. Hvor stor en andel af danske virksomheder havde
-produktinnovation 1993-1995?
+- S16: How large a part of the firm’s employees has taken
+part in internal or external courses or educational
+schemes in 1995-1996?
 
-2.1 Ud af disse, hvilken andel var radikal produktinnovation
-(resten skulle gerne være trinvis produktinnovation)
+# 2. Hvor stor en andel af danske virksomheder havde produktinnovation 1993-1995?
+
+#2.1 Ud af disse, hvilken andel var radikal produktinnovation (resten skulle gerne være trinvis produktinnovation)
