@@ -19,6 +19,7 @@ DISKO
 ▶ Sæt jer ind i data ved hjælp af pdf’en og svar p˚a
 følgende to spørgsm˚al ud fra DISKO:
 
+<<<<<<< HEAD
 #1. Hvilke variable i DISKO kan bruges til at beskrive produktinnovation?
 
 - S20: Has the firm introduced new products/services
@@ -43,3 +44,27 @@ schemes in 1995-1996?
 # 2. Hvor stor en andel af danske virksomheder havde produktinnovation 1993-1995?
 
 #2.1 Ud af disse, hvilken andel var radikal produktinnovation (resten skulle gerne være trinvis produktinnovation)
+=======
+1. Hvilke variable i DISKO kan bruges til at beskrive
+produktinnovation?
+
+
+
+2. Hvor stor en andel af danske virksomheder havde
+produktinnovation 1993-1995?
+
+```{r}
+table(DISKO$S20)
+```
+```{r}
+S20 <- 966+886+1+17+30
+Yes <- 966/S20; No <- 886/S20; dokno <- 18/S20; Na <- 30/S20
+Yes
+```
+50,8% havde produktinnovation.
+
+2.1 Ud af disse, hvilken andel var radikal produktinnovation
+(resten skulle gerne være trinvis produktinnovation)
+
+
+>>>>>>> f8d6dae300676b99a7efe47165a5792def1b4713
