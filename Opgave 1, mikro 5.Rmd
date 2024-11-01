@@ -85,5 +85,5 @@ Teksten beskriver at følgende jobtyper har risiko for at blive automatiseret:
 - Derudover så beskriver teksten også, at jobs der involverer social interaktion er meget udsat. 
 
 0.D
-
+- Størstedelen af kode E i oversigten og jobs involverer jobs der har med social interaktion at gøre, så kode E beskriver i stor grad de karakteristika i forhold til denne jobtype. 
 
