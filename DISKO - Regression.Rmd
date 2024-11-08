@@ -76,6 +76,7 @@ table(DISKO$S23B1)
 
 I følge vores variabel, så er der altså 822 ud af 1870, der havde produktinnovation i perioden. Dette er 44%. 
 
+
 Opgave B - spg. 2 af 4
 
 ▶ Diskuter hvilke faktorer, der er forbundet med, at en
@@ -116,7 +117,7 @@ H.2 Formel uddannelse kan gøre virksomheden mere
 
 ▶ Lav en regression. Brug lm() kommandoen i R
 
-▶ Den afhængige variabel er jeres m˚al for
+▶ Den afhængige variabel er jeres mål for
 produktinnovation i opgave A
 
 ▶ De forklarende variable er m˚al for arbejdets organisering
