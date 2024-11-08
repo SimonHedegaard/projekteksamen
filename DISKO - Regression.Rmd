@@ -138,7 +138,24 @@ summary(model_h2)
 ```
 
 
+Model 1
+
+S6A  (Tværfaglige arbejdsgrupper): Koefficienten er negativ β=−0.1314), og effekten er signifikant (p < 0.001). Dette tyder på, at virksomheder, der anvender tværfaglige arbejdsgrupper, har lavere sandsynlighed for at introducere ny teknologi.
+
+S6B (Quality circles/groups): Negativ signifikant effekt (0.0648β=−0.0648, p = 0.041). Dette indikerer, at virksomheder med quality circles også har lavere sandsynlighed for teknologisk innovation.
+
+S6D (Planlagt jobrotation): Negativ signifikant effekt (β=−0.0900, p = 0.009). Virksomheder, der anvender planlagt jobrotation, er mindre tilbøjelige til at introducere ny teknologi.
+
+Model 2
+
+S16 (Andel af medarbejdere på kurser): Negativ signifikant effekt (β=−0.3206, p = 0.002). En højere andel af medarbejdere på kurser er forbundet med en lavere sandsynlighed for at introducere ny teknologi.
+
+S18B (Uddannelsesdage for mellemledere): Negativ signifikant effekt (β=−0.1232, p = 0.014). Flere uddannelsesdage for mellemledere er også forbundet med lavere sandsynlighed for teknologisk innovation.
+
+
+
+
 ## Kan hypoteserne forkastes eller ej?
-Ser ikke sådan ud nej
+Vi forkaster begge hypoteser, ser ikke ud til at nogle af de forklarende variabler er med til at øge innovationen hos virksomhederne.
 
 ## Hvis tid: Diskuter analyse kritisk. Der kan være rent økonometriske problemer, som ville være vigtige i et semesterprojekt, men her skal I fokusere p˚a problemer relateret til innovationsøkonomisk teori. Det kunne være omitted variable bias. Er der fordele/ulemper ved jeres operationalisering af formel uddannelse og arbejdets organisering i spørgsm˚al C?
