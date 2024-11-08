@@ -7,6 +7,8 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+DISKO <- read_excel("DISKO_mikro5.xls")
 ```
 
 Opgave A - spg. 1 af 4
@@ -21,8 +23,32 @@ Produktinnovation er en underkategori af innovation, der specifikt fokuserer på
 ▶ Foreslå hvordan produktinnovation kan operationaliseres
 i DISKO-datasættet.
 
-▶ Vælg en operationalisering s˚a hver virksomhed er enten
+- S20: Has the firm introduced new products/services
+during the period 1993-1995 when excepting minor
+improvements of existing products?
+
+- S1: Has the firm carried through important
+organisational changes during the period 1993-1995?
+
+- S4: Have changes of the firm’s management structure
+taken place during the period 1993-1995?
+
+- S23A1: Has the firm introduced new technology based
+upon information and communication technology during
+the period 1993-1995?
+
+- S23B1: Has the firm introduced other forms of new
+technology during the period 1993-1995?
+Kodning: 1: Ja, 2: Nej, 8/9: Vil ikke svare/Ved ikke
+
+- S16: How large a part of the firm’s employees has taken
+part in internal or external courses or educational
+schemes in 1995-1996?
+
+▶ Vælg en operationalisering så hver virksomhed er enten
 innovativ (1) eller ej (0)
+
+
 
 ▶ Indsæt en tabel der viser hvor mange virksomheder i
 DISKO-datasættet, der havde produktinnovation i
