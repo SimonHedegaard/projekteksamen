@@ -56,8 +56,8 @@ Opgave C - spg. 3 af 4
 #3: Globalt unikt produkt (104 virksomheder).
 library(readr)
 Innovation_Summary <- read_csv("Innovation_Summary.csv")
+View(Innovation_Summary)
 ```
-
 
 ▶ Test følgende to hypoteser:
 
@@ -79,10 +79,40 @@ muligheder. Vælg den I synes er bedst.
 ▶ Det er ikke (her) nødvendigt med yderligere forklarende
 variable
 
+```{r}
+# Indlæs nødvendige biblioteker
+library(readxl)
+library(stats)
+
+# Indlæs datasættet
+library(readxl)
+data <- read_excel("disko_regression_data.xlsx")
+
+# Konverter afhængig variabel til faktor
+data$new_technology <- as.factor(data$new_technology)
+
+# Regression for H.1 (Arbejdets organisering)
+model_h1 <- glm(new_technology ~ S6A + S6B + S6C + S6D + S6E + S6F + S6G,
+                data = data, family = binomial)
+summary(model_h1)
+
+# Regression for H.2 (Formel uddannelse)
+model_h2 <- glm(new_technology ~ S16 + S18A + S18B + S18C,
+                data = data, family = binomial)
+summary(model_h2)
+
+```
+
+
+
 Opgave D - spg. 4 af 4
 
 ▶ Præsenter og beskriv resultaterne fra
 regressionsmodellen i opgave D
+```{r}
+summary(model_h1)
+summary(model_h2)
+```
 
 ▶ Kan hypoteserne forkastes eller ej?
 
