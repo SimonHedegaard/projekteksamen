@@ -16,16 +16,16 @@ library(readxl)
 library(dplyr)
 ```
 
-Opgave A - spg. 1 af 4
+# Opgave A - spg. 1 af 4
 
-#Redegør for begreberne “innovation” og
+## Redegør for begreberne “innovation” og
 “produktinnovation”. Herunder: 
 
 Innovation er en bred betegnelse, der dækker over processen med at skabe nye eller væsentligt forbedrede produkter, tjenester, processer, forretningsmodeller eller metoder. Det handler ikke kun om opfindelser, men også om at omsætte nye ideer til praksis og skabe værdi, hvad enten det er økonomisk, socialt eller miljømæssigt.
 
 Produktinnovation er en underkategori af innovation, der specifikt fokuserer på udviklingen af nye eller væsentligt forbedrede produkter (varer eller tjenester). Det handler om at introducere noget nyt til markedet eller forbedre eksisterende produkter på en måde, der skaber større værdi for kunderne.
 
-##Foreslå hvordan produktinnovation kan operationaliseres
+## Foreslå hvordan produktinnovation kan operationaliseres
 i DISKO-datasættet.
 
 - S20: Has the firm introduced new products/services
@@ -50,7 +50,7 @@ Kodning: 1: Ja, 2: Nej, 8/9: Vil ikke svare/Ved ikke
 part in internal or external courses or educational
 schemes in 1995-1996?
 
-##Vælg en operationalisering så hver virksomhed er enten innovativ (1) eller ej (0)
+## Vælg en operationalisering så hver virksomhed er enten innovativ (1) eller ej (0)
 
 S23B1: Has the firm introduced other forms of new
 technology during the period 1993-1995?
@@ -58,7 +58,7 @@ Kodning: 1: Ja, 2: Nej, 8/9: Vil ikke svare/Ved ikke
 
 Nr. S23B1 giver bedst mening i forhold til at vurdere innovation.  
 
-##Indsæt en tabel der viser hvor mange virksomheder i DISKO-datasættet, der havde produktinnovation i 1993-1995 ifølge jeres definition
+## Indsæt en tabel der viser hvor mange virksomheder i DISKO-datasættet, der havde produktinnovation i 1993-1995 ifølge jeres definition
 
 ```{r}
 # Tæl antallet af hver type svar i kolonnen "Svar"
@@ -76,25 +76,19 @@ table(DISKO$S23B1)
 
 I følge vores variabel, så er der altså 822 ud af 1870, der havde produktinnovation i perioden. Dette er 44%. 
 
+# Opgave B - spg. 2 af 4
 
-Opgave B - spg. 2 af 4
+## Diskuter hvilke faktorer, der er forbundet med, at en virksomhed oftere indføre nye varer eller tjenester.
 
-▶ Diskuter hvilke faktorer, der er forbundet med, at en
-virksomhed oftere indføre nye varer eller tjenester.
 - investering i forskning og udvikling (R&D)
 - Større virksomheder har ofte flere ressourcer til rådighed til at finansiere forskning og udvikling (R&D)
 - Virksomheder der har tæt kontakt med forskningsinstitutioner
 - Konkurrencepres og øget efterspørgslen er markedsforhold som er med at skabe innovation.
 
-▶ En af disse faktorer er viden (humankapital) i
-medarbejderne. Denne kan være tilegnet formelt ved
-uddannelse eller uformelt gennem erfaring.
-Virksomheden kan understøtte akkumuleringen af
-erfaring gennem m˚aden hvorp˚a arbejdet er organiseret.
+## En af disse faktorer er viden (humankapital) i medarbejderne. Denne kan være tilegnet formelt ved uddannelse eller uformelt gennem erfaring. Virksomheden kan understøtte akkumuleringen af erfaring gennem m˚aden hvorp˚a arbejdet er organiseret.
 - Ja netop!
 
-
-Opgave C - spg. 3 af 4
+# Opgave C - spg. 3 af 4
 
 ```{r}
 #Product Innovation = 0: Ingen innovation (934 virksomheder).
@@ -107,35 +101,30 @@ library(readr)
 Innovation_Summary <- read_csv("Innovation_Summary.csv")
 ```
 
-
-▶ Test følgende to hypoteser:
+## Test følgende to hypoteser:
 
 H.1 Arbejdets organisering kan gøre virksomheden mere
 (produkt)innovativ
 H.2 Formel uddannelse kan gøre virksomheden mere
 (produkt)innovativ
 
-▶ Lav en regression. Brug lm() kommandoen i R
+## Lav en regression. Brug lm() kommandoen i R
 
-▶ Den afhængige variabel er jeres mål for
-produktinnovation i opgave A
+## Den afhængige variabel er jeres mål for produktinnovation i opgave A
 
-▶ De forklarende variable er m˚al for arbejdets organisering
-(variable S6A-S6G p˚a slide 29) og formel uddannelse
-(S16, S18A-S18C p˚a slide 28). Det giver mange
-muligheder. Vælg den I synes er bedst.
+## De forklarende variable er m˚al for arbejdets organisering (variable S6A-S6G p˚a slide 29) og formel uddannelse (S16, S18A-S18C p˚a slide 28). Det giver mange muligheder. Vælg den I synes er bedst.
 
-▶ Det er ikke (her) nødvendigt med yderligere forklarende
+## Det er ikke (her) nødvendigt med yderligere forklarende
 variable
 
-Opgave D - spg. 4 af 4
+# Opgave D - spg. 4 af 4
 
-▶ Præsenter og beskriv resultaterne fra
+## Præsenter og beskriv resultaterne fra
 regressionsmodellen i opgave D
 
-▶ Kan hypoteserne forkastes eller ej?
+## Kan hypoteserne forkastes eller ej?
 
-▶ Hvis tid: Diskuter analyse kritisk. Der kan være rent
+## Hvis tid: Diskuter analyse kritisk. Der kan være rent
 økonometriske problemer, som ville være vigtige i et
 semesterprojekt, men her skal I fokusere p˚a problemer
 relateret til innovationsøkonomisk teori. Det kunne
