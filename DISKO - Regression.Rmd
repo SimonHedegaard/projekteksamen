@@ -80,14 +80,32 @@ Opgave B - spg. 2 af 4
 
 ▶ Diskuter hvilke faktorer, der er forbundet med, at en
 virksomhed oftere indføre nye varer eller tjenester.
+- investering i forskning og udvikling (R&D)
+- Større virksomheder har ofte flere ressourcer til rådighed til at finansiere forskning og udvikling (R&D)
+- Virksomheder der har tæt kontakt med forskningsinstitutioner
+- Konkurrencepres og øget efterspørgslen er markedsforhold som er med at skabe innovation.
 
 ▶ En af disse faktorer er viden (humankapital) i
 medarbejderne. Denne kan være tilegnet formelt ved
 uddannelse eller uformelt gennem erfaring.
 Virksomheden kan understøtte akkumuleringen af
 erfaring gennem m˚aden hvorp˚a arbejdet er organiseret.
+- Ja netop!
+
 
 Opgave C - spg. 3 af 4
+
+```{r}
+#Product Innovation = 0: Ingen innovation (934 virksomheder).
+#Innovation Degree:
+#0: Ingen innovation.
+#1: Innovation, men lignende produkter findes på det danske marked (633 virksomheder).
+#2: Innovation, unikt på det danske marked (113 virksomheder).
+#3: Globalt unikt produkt (104 virksomheder).
+library(readr)
+Innovation_Summary <- read_csv("Innovation_Summary.csv")
+```
+
 
 ▶ Test følgende to hypoteser:
 
