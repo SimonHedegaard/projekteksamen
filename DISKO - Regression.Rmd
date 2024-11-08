@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Opgave A - spg. 1 af 4
 
 ▶ Redegør for begreberne “innovation” og
-“produktinnovation”. Herunder:
+“produktinnovation”. Herunder: 
 
 Innovation er en bred betegnelse, der dækker over processen med at skabe nye eller væsentligt forbedrede produkter, tjenester, processer, forretningsmodeller eller metoder. Det handler ikke kun om opfindelser, men også om at omsætte nye ideer til praksis og skabe værdi, hvad enten det er økonomisk, socialt eller miljømæssigt.
 
