@@ -1,6 +1,6 @@
 ---
 title: "DISKO Opgave - Regression"
-author: "Viktor Damm"
+author: "Ukendt"
 date: "2024-11-01"
 output: html_document
 ---
@@ -89,6 +89,8 @@ H.2 Formel uddannelse kan gøre virksomheden mere
 
 ## Det er ikke (her) nødvendigt med yderligere forklarende variable
 
+Modellen er præsenteret i sidste opgave:
+
 ```{r}
 # Indlæs nødvendige biblioteker
 library(readxl)
@@ -137,7 +139,6 @@ summary(model_h2)
 
 ```
 
-
 Model 1
 
 S6A  (Tværfaglige arbejdsgrupper): Koefficienten er negativ β=−0.1314), og effekten er signifikant (p < 0.001). Dette tyder på, at virksomheder, der anvender tværfaglige arbejdsgrupper, har lavere sandsynlighed for at introducere ny teknologi.
@@ -151,9 +152,6 @@ Model 2
 S16 (Andel af medarbejdere på kurser): Negativ signifikant effekt (β=−0.3206, p = 0.002). En højere andel af medarbejdere på kurser er forbundet med en lavere sandsynlighed for at introducere ny teknologi.
 
 S18B (Uddannelsesdage for mellemledere): Negativ signifikant effekt (β=−0.1232, p = 0.014). Flere uddannelsesdage for mellemledere er også forbundet med lavere sandsynlighed for teknologisk innovation.
-
-
-
 
 ## Kan hypoteserne forkastes eller ej?
 Vi forkaster begge hypoteser, ser ikke ud til at nogle af de forklarende variabler er med til at øge innovationen hos virksomhederne.
