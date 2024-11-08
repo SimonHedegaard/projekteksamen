@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE); library(readxl); library(plyr); DISKO <- read_excel("DISKO_mikro5.xls")
 ```
 
 Opgave A - spg. 1 af 4
@@ -87,7 +87,6 @@ Opgave C - spg. 3 af 4
 #3: Globalt unikt produkt (104 virksomheder).
 library(readr)
 Innovation_Summary <- read_csv("Innovation_Summary.csv")
-View(Innovation_Summary)
 ```
 
 ▶ Test følgende to hypoteser:
