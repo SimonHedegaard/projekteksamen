@@ -1,0 +1,103 @@
+---
+title: 'Opgave 1: TASK'
+output: html_document
+date: "2024-11-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Tæl antallet af hver type svar i kolonnen "Svar"
+table(DISKO$S23B1)
+```
+
+```{r}
+# Omdan kolonnen til en faktor med beskrivende etiketter
+DISKO$S23B1 <- factor(DISKO$S23B1, levels = c(1, 2, 8, 9), 
+                     labels = c("Ja", "Nej", "Ved ikke", "Ved ikke"))
+# Tæl antallet af hver svarmulighed
+table(DISKO$S23B1)
+```
+
+I følge vores variabel, så er der altså 822 ud af 1870, der havde produktinnovation i perioden. Dette er 44%. 
+
+# Opgave B - spg. 2 af 4
+
+## Diskuter hvilke faktorer, der er forbundet med, at en virksomhed oftere indføre nye varer eller tjenester.
+
+- investering i forskning og udvikling (R&D)
+- Større virksomheder har ofte flere ressourcer til rådighed til at finansiere forskning og udvikling (R&D)
+- Virksomheder der har tæt kontakt med forskningsinstitutioner
+- Konkurrencepres og øget efterspørgslen er markedsforhold som er med at skabe innovation.
+
+## En af disse faktorer er viden (humankapital) i medarbejderne. Denne kan være tilegnet formelt ved uddannelse eller uformelt gennem erfaring. Virksomheden kan understøtte akkumuleringen af erfaring gennem m˚aden hvorp˚a arbejdet er organiseret.
+
+- Ja netop!
+
+# Opgave C - spg. 3 af 4
+
+## Test følgende to hypoteser:
+
+H.1 Arbejdets organisering kan gøre virksomheden mere
+(produkt)innovativ
+H.2 Formel uddannelse kan gøre virksomheden mere
+(produkt)innovativ
+
+## Lav en regression. Brug lm() kommandoen i R
+
+## Den afhængige variabel er jeres m˚al for produktinnovation i opgave A
+
+## De forklarende variable er m˚al for arbejdets organisering (variable S6A-S6G p˚a slide 29) og formel uddannelse (S16, S18A-S18C p˚a slide 28). Det giver mange muligheder. Vælg den I synes er bedst.
+
+## Det er ikke (her) nødvendigt med yderligere forklarende variable
+
+Modellen er præsenteret i sidste opgave:
+
+```{r}
+# Indlæs nødvendige biblioteker
+library(readxl)
+library(stats)
+
+# Indlæs datasættet fra den oprindelige Excel-fil
+data <- DISKO
+
+# Konverter relevante variabler til numerisk format
+data$S20 <- as.numeric(data$S20)
+data$S23B1 <- as.numeric(data$S23B1)
+data$S6A <- as.numeric(data$S6A)
+data$S6B <- as.numeric(data$S6B)
+data$S6C <- as.numeric(data$S6C)
+data$S6D <- as.numeric(data$S6D)
+data$S6E <- as.numeric(data$S6E)
+data$S6F <- as.numeric(data$S6F)
+data$S6G <- as.numeric(data$S6G)
+data$S16 <- as.numeric(data$S16)
+data$S18A <- as.numeric(data$S18A)
+data$S18B <- as.numeric(data$S18B)
+data$S18C <- as.numeric(data$S18C)
+
+# Opret den afhængige variabel som en binær indikator for introduktion af ny teknologi (S23B1)
+data$new_technology <- ifelse(data$S23B1 == 1, 1, 0)
+
+# Fjern observationer med manglende data
+data <- na.omit(data)
+```
+
+
+```{r}
+# Logistisk regression for H.1 (Arbejdets organisering)
+model_h1 <- glm(new_technology ~ S6A + S6B + S6C + S6D + S6E + S6F + S6G,
+                data = data, family = binomial)
+summary(model_h1)
+
+# Logistisk regression for H.2 (Formel uddannelse)
+model_h2 <- glm(new_technology ~ S16 + S18A + S18B + S18C,
+                data = data, family = binomial)
+summary(model_h2)
+
+```
+
+
+
