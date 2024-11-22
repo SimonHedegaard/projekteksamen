@@ -1,0 +1,163 @@
+---
+title: 'Opgave 1: TASK'
+output: html_document
+date: "2024-11-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+TASK <- read_excel("TASK_mikro5.xls")
+```
+
+#Vi anvender  som operationalisering til at anvende ny teknologi
+
+```{r}
+Operationalisering <- factor(TASK$F2, levels = c(1, 2, 3, 4, 5, 8, 9), 
+                     labels = c("Hver dag", "Mindst en gang om ugen", "1-3 gange om måneden", "Sjældere end en gang om måneden", "Aldrig", "Nægter at svare", "Ved ikke"))
+# Tæl antallet af hver svarmulighed
+table(Operationalisering)
+TASK$F2 <- ifelse(TASK$F2 %in% c(1, 2, 3), 1,
+                                  ifelse(TASK$F2 %in% c(4, 5), 0, NA))
+```
+
+
+
+## Test følgende to hypoteser:
+
+H.1 Arbejdets organisering kan gøre virksomheden mere
+(produkt)innovativ
+H.2 Formel uddannelse kan gøre virksomheden mere
+(produkt)innovativ
+
+Modellen er præsenteret i sidste opgave:
+
+```{r}
+# Indlæs nødvendige biblioteker
+library(readxl)
+library(stats)
+
+#vi omstrukturer også de uafhængige variable:
+
+TASK$F2 <- ifelse(TASK$F2 %in% c(1, 2, 3), 1,
+                                  ifelse(TASK$F2 %in% c(4, 5), 0, NA))
+TASK$B5 <- ifelse(TASK$F2 %in% c(1, 2, 3), 1,
+                                  ifelse(TASK$B5 %in% c(4, 5), 0, NA))
+TASK$B13 <- ifelse(TASK$F2 %in% c(1, 2, 3), 1,
+                                  ifelse(TASK$B13 %in% c(4, 5), 0, NA))
+TASK$C2 <- ifelse(TASK$C2 %in% c(1, 2), 1,
+                                  ifelse(TASK$C2 %in% c(3), 0, NA))
+TASK$C3 <- ifelse(TASK$C3 %in% c(1, 2), 1,
+                                  ifelse(TASK$C3 %in% c(3), 0, NA))
+
+
+# Konverter relevante variabler til numerisk format
+TASK$F2 <- as.numeric(TASK$F2) #uafhængige
+
+TASK$B5 <- as.numeric(TASK$B5) #hvor ofte indebærer din hovedbeskæftigelse; komplekse opgaver
+
+TASK$B13 <- as.numeric(TASK$B13) #Hvor ofte er dit arbejdstempo afhængigt af målbare produktionsmål eller præstationsmål?
+
+TASK$C2 <- as.numeric(TASK$C2) #sammenlignet med din lønnnet hovedbeskæftigelse i 2016, indebærer din nuværende       hovedskæftigelse oftere eller sjældere; kompelse opgaver
+
+TASK$C3 <- as.numeric(TASK$C3) #Sammenlignet med din lønnede hovedbeskæftigelse i 2016, indebærer din nuværende hovedbeskæftigelse oftere eller sjældnere: Korte, rutineprægede og gentagne arbejdsopgaver af en varighed på mindre end 10 minutter?
+
+TASK$F2 <- ifelse(TASK$F2 == 1, 1, 0)
+TASK$B5 <- ifelse(TASK$F2 == 1, 1, 0)
+TASK$B13 <- ifelse(TASK$F2 == 1, 1, 0)
+TASK$C2 <- ifelse(TASK$F2 == 1, 1, 0)
+TASK$C3 <- ifelse(TASK$F2 == 1, 1, 0)
+
+
+# Fjern observationer med manglende data
+TASK <- na.omit(TASK)
+
+# Logistisk regression for H.1 (Arbejdets organisering)
+model <- glm(F2 ~ B5 + B13 + C2 + C3,
+                data = TASK, family = binomial)
+summary(model)
+
+```
+
+
+```{r}
+# Indlæs nødvendige biblioteker
+library(readxl)
+library(stats)
+
+# Omstrukturer de uafhængige variable med de korrekte betingelser
+TASK$F2 <- ifelse(TASK$F2 %in% c(1, 2, 3), 1,
+                  ifelse(TASK$F2 %in% c(4, 5), 0, NA))
+
+TASK$B5 <- ifelse(TASK$B5 %in% c(1, 2, 3), 1,
+                  ifelse(TASK$B5 %in% c(4, 5), 0, NA))
+
+TASK$B13 <- ifelse(TASK$B13 %in% c(1, 2, 3), 1,
+                   ifelse(TASK$B13 %in% c(4, 5), 0, NA))
+
+TASK$C2 <- ifelse(TASK$C2 %in% c(1, 2), 1,
+                  ifelse(TASK$C2 %in% c(3), 0, NA))
+
+TASK$C3 <- ifelse(TASK$C3 %in% c(1, 2), 1,
+                  ifelse(TASK$C3 %in% c(3), 0, NA))
+
+# Konverter relevante variabler til numerisk format
+TASK$F2 <- as.numeric(as.character(TASK$F2))  # Uafhængig variabel
+TASK$B5 <- as.numeric(as.character(TASK$B5))  # Hvor ofte indebærer din hovedbeskæftigelse; komplekse opgaver
+TASK$B13 <- as.numeric(as.character(TASK$B13)) # Hvor ofte er dit arbejdstempo afhængigt af målbare produktionsmål eller præstationsmål?
+TASK$C2 <- as.numeric(as.character(TASK$C2))  # Sammenligning med tidligere beskæftigelse; komplekse opgaver
+TASK$C3 <- as.numeric(as.character(TASK$C3))  # Sammenligning med tidligere beskæftigelse; korte rutineprægede opgaver
+
+# Fjern observationer med manglende data
+TASK <- na.omit(TASK)
+
+# Tjek hvor mange rækker der er tilbage
+cat("Number of rows after removing NA:", nrow(TASK), "\n")
+
+# Logistisk regression for H.1 (Arbejdets organisering)
+model <- glm(F2 ~ B5 + B13 + C2 + C3,
+             data = TASK, family = binomial)
+summary(model)
+
+# Tjek for multikollinaritet ved at se på korrelationsmatrixen
+cor_matrix <- cor(TASK[, c("F2", "B5", "B13", "C2", "C3")])
+print(cor_matrix)
+
+```
+
+
+```{r}
+# Indlæs nødvendige biblioteker
+library(readxl)
+
+# Indlæs datasættet
+TASK <- read.csv("TASK_mikro5.csv", encoding = "latin1")
+
+# Omstrukturer de uafhængige variable med de korrekte betingelser
+TASK$F2 <- ifelse(TASK$F2 %in% c(1, 2, 3), 1,
+                  ifelse(TASK$F2 %in% c(4, 5), 0, NA))
+
+TASK$B5 <- ifelse(TASK$B5 %in% c(1, 2, 3), 1,
+                  ifelse(TASK$B5 %in% c(4, 5), 0, NA))
+
+TASK$B13 <- ifelse(TASK$B13 %in% c(1, 2, 3), 1,
+                   ifelse(TASK$B13 %in% c(4, 5), 0, NA))
+
+TASK$C2 <- ifelse(TASK$C2 %in% c(1, 2), 1,
+                  ifelse(TASK$C2 == 3, 0, NA))
+
+TASK$C3 <- ifelse(TASK$C3 %in% c(1, 2), 1,
+                  ifelse(TASK$C3 == 3, 0, NA))
+
+# Fjern rækker med manglende værdier i de transformerede kolonner
+TASK <- na.omit(TASK[, c("F2", "B5", "B13", "C2", "C3")])
+
+# Logistisk regression for H.1 (Arbejdets organisering)
+model <- glm(F2 ~ B5 + B13 + C2 + C3,
+             data = TASK, family = binomial)
+summary(model)
+
+```
+

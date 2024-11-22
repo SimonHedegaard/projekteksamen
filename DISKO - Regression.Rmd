@@ -142,7 +142,7 @@ Model 1
 
 S6A  (Tværfaglige arbejdsgrupper): Koefficienten er negativ β=−0.1314), og effekten er signifikant (p < 0.001). Dette tyder på, at virksomheder, der anvender tværfaglige arbejdsgrupper, har lavere sandsynlighed for at introducere ny teknologi.
 
-S6B (Quality circles/groups): Negativ signifikant effekt (0.0648β=−0.0648, p = 0.041). Dette indikerer, at virksomheder med quality circles også har lavere sandsynlighed for teknologisk innovation.
+S6B (Quality circles/groups): Negativ signifikant effekt β=−0.0648, p = 0.041). Dette indikerer, at virksomheder med quality circles også har lavere sandsynlighed for teknologisk innovation.
 
 S6D (Planlagt jobrotation): Negativ signifikant effekt (β=−0.0900, p = 0.009). Virksomheder, der anvender planlagt jobrotation, er mindre tilbøjelige til at introducere ny teknologi.
 

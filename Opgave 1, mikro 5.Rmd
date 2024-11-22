@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 ```{r}
 # Der er forskellige måder at skrive kode i R. Jeg bruger gerne tidyverse.
 #Det har betydning for hvordan man arbejder med data - laver nye variable, fjerner observationer osv.
