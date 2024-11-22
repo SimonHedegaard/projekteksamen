@@ -121,7 +121,6 @@ data$new_technology <- ifelse(data$S23B1 == 1, 1, 0)
 data <- na.omit(data)
 ```
 
-
 # Opgave D - spg. 4 af 4
 
 ## Præsenter og beskriv resultaterne fra regressionsmodellen i opgave D

@@ -1,0 +1,24 @@
+---
+title: "Untitled"
+author: "Viktor Damm"
+date: "2024-11-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+▶ Hjælp til dataopgave 2 (forberedelse til eksamen): 
+▶ Tidligere skabte I 1-ciffer koder for jobfunktion ud fra variablen ISCO NU i TASK 
+▶ I dag: lav 6 binære (0-1) variable ud fra TASK-spørgsm˚alene hvor respondenterne sammenligner 2016 med 2019:
+1. Er lig 1 hvis personen oftere bruger AI til beslutninger (G1A) 
+2. Er lig 1 hvis personen oftere styrer robotter (F2A) 
+3. Er lig 1 hvis personen oftere løser problemer (C1) 
+4. Er lig 1 hvis personen mere ofte har autonomi til at vælge metoder (C4) 
+5. Er lig 1 hvis personen oftere underviser andre (E3A) 
+6. Er lig 1 hvis personen er bange for at miste sit arbejde (D2) 
+▶ Find korrelationen mellem (1,2) og (3,4,5,6). Passer resultatet med teori? 
+▶ Find ogs˚a gerne de statistiske sammenhænge med jobfunktioner (1-ciffer) og (1,2) 
+▶ I behøver ikke bruge vægtene i TASK-datasættet
+
