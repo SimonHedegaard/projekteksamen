@@ -6,7 +6,10 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE); library(readxl)
+TASK <- read_excel("TASK_mikro5.xls")
+g1a <-TASK$G1a; f2a <- TASK$F2a; c1 <- TASK$C1; c4 <- TASK$C4; e3a <- TASK$E3a; d2 <- TASK$D2
+View(TASK)
 ```
 
 ▶ Hjælp til dataopgave 2 (forberedelse til eksamen): 
@@ -18,7 +21,40 @@ knitr::opts_chunk$set(echo = TRUE)
 4. Er lig 1 hvis personen mere ofte har autonomi til at vælge metoder (C4) 
 5. Er lig 1 hvis personen oftere underviser andre (E3A) 
 6. Er lig 1 hvis personen er bange for at miste sit arbejde (D2) 
+```{r}
+TASK$binary_g1a <- ifelse(TASK$G1a == 1, 1, 0) # Oftere bruger AI til beslutninger
+TASK$binary_f2a <- ifelse(TASK$F2a == 1, 1, 0) # Oftere styrer robotter
+TASK$binary_c1 <- ifelse(TASK$C1 == 1, 1, 0)   # Oftere løser problemer
+TASK$binary_c4 <- ifelse(TASK$C4 == 1, 1, 0)   # Oftere har autonomi til at vælge metoder
+TASK$binary_e3a <- ifelse(TASK$E3a == 1, 1, 0) # Oftere underviser andre
+TASK$binary_d2 <- ifelse(TASK$D2 == 1, 1, 0)   # Bange for at miste sit arbejde
+head(TASK)
+```
+
 ▶ Find korrelationen mellem (1,2) og (3,4,5,6). Passer resultatet med teori? 
-▶ Find ogs˚a gerne de statistiske sammenhænge med jobfunktioner (1-ciffer) og (1,2) 
+
+```{r}
+library(dplyr)
+
+mymatrix <- TASK %>%
+  mutate(
+    binary_g1a = case_when(G1a == 1 ~ 1, TRUE ~ 0),   # Oftere bruger AI til beslutninger
+    binary_f2a = case_when(F2a == 1 ~ 1, TRUE ~ 0),   # Oftere styrer robotter
+    binary_c1 = case_when(C1 == 1 ~ 1, TRUE ~ 0),     # Oftere løser problemer
+    binary_c4 = case_when(C4 == 1 ~ 1, TRUE ~ 0),     # Oftere har autonomi til at vælge metoder
+    binary_e3a = case_when(E3a == 1 ~ 1, TRUE ~ 0),   # Oftere underviser andre
+    binary_d2 = case_when(D2 == 1 ~ 1, TRUE ~ 0)      # Bange for at miste sit arbejde
+  ) %>%
+  select(binary_g1a, binary_f2a, binary_c1, binary_c4, binary_e3a, binary_d2) 
+
+cor_matrix <- cor(mymatrix, method = "pearson")
+
+print(cor_matrix)
+```
+
+▶ Find også gerne de statistiske sammenhænge med jobfunktioner (1-ciffer) og (1,2) 
+
+
+
 ▶ I behøver ikke bruge vægtene i TASK-datasættet
 
