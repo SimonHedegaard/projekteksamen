@@ -17,71 +17,33 @@ glimpse ( geodat )
 ```
 
 ```{r}
-#Kun stater og kun 2018 data. NA bliver 0 for variablen value
+#Kun stater og kun 2018 data . NA bliver til 0 for variablen
 stater.18 <- geodat %>%
-  filter(county==0&region==0&year==2018) %>%
-  mutate(value=case_when(is.na(value)~0,TRUE~value))
-
+filter ( county == 0 & region == 0 & year == 2018) %>%
+mutate ( value = case_when (is.na( value ) ~ 0 , TRUE ~ value ) )
 
 stater.18 <- stater.18 %>%
-  mutate(L=sum(value)) %>%
-  group_by(geo_name) %>%
-  mutate(L.a=sum(value)) %>%
-  ungroup() %>%
-  group_by(description) %>% 
-  mutate(L.b=sum(value)) %>%
-  ungroup() %>%
-  mutate(rca=value*L/(L.a*L.b)) %>%
-  select(-line_code,-region,-county,-industry_classification) %>%
-  glimpse()
+mutate ( L =sum( value ) ) %>%
+group_by( geo_name ) %>% # grupper efter stater for at lave L.a
+mutate ( L.a = sum( value )) %>%
+ungroup () %>%
+group_by( description ) %>% # grupper efter branche for at lave L.b
+mutate ( L.b = sum( value )) %>%
+ungroup () %>%
+mutate ( RCA = value*L/( L.a*L.b ) ) %>% #jf ligningen for beregning af RCA
+select ( - line_code , - geo_fips , - region , - county , - industry_classification ) %>%
+glimpse ()
+```
 
 
-#Histogram og density
-library(ggplot2)
-
-stater.18 %>%
-  filter(description == "Farm employment") %>%
-  ggplot(aes(x=rca)) +
-  geom_histogram() +
-  theme_classic()
-
-stater.18 %>%
-  filter(description == "Farm employment") %>%
-  ggplot(aes(x=rca)) +
-  geom_density() +
-  theme_classic()
-
-
-#Resultat p� kort
-library(usmap)
-
-#Hent et kort over USA med koordinater
-stat_dat <- us_map(regions = "states")
-
-# Lim analysen p� kortet (full er geo_name i kortdata)
-dat_map <- left_join(stat_dat,stater.18, by = c("full"="geo_name"))
-
-
-# print kortet
-dat_map %>%
-  filter(description == "Farm employment") %>%
-  ggplot(aes(x = x, y = y, group = group,
-             fill = rca, color = rca)) +
-  geom_polygon() +
-  theme_void()
-
-
-
-
-#Koden herunder laver samme analyse men p� amt-niveau
-#Analysen bliver dermed endnu mere overbevisende
-#Man skal bruge andre variable til at lave kortet p� amt-niveau
-
-amter.18 <- geodat %>%
-  filter(county==1&year==2018) %>%
+```{r}
+#Kun stater og kun 2002 data. NA bliver 0 for variablen value
+stater.02 <- geodat %>%
+  filter(county==0&region==0&year==2002) %>%
   mutate(value=case_when(is.na(value)~0,TRUE~value))
 
-amter.18 <- amter.18 %>%
+
+stater.02 <- stater.02 %>%
   mutate(L=sum(value)) %>%
   group_by(geo_name) %>%
   mutate(L.a=sum(value)) %>%
@@ -92,24 +54,54 @@ amter.18 <- amter.18 %>%
   mutate(rca=value*L/(L.a*L.b)) %>%
   select(-line_code,-region,-county,-industry_classification) %>%
   glimpse()
+```
 
-amter.18 %>%
-  filter(description == "Farm employment") %>%
-  ggplot(aes(x=rca)) +
-  geom_histogram() +
-  theme_classic()
+```{r}
+# Histogram og density
+library ( ggplot2 )
 
-county_dat <- us_map(regions = "counties")
+stater.18 %>%
+filter( description == "Farm employment" ) %>%
+ggplot( aes ( x = RCA ) ) +
+geom_histogram() +
+theme_classic()
 
-dat_map.2 <- county_dat %>%
-  mutate(geo_fips = as.numeric(fips)) %>%
-  left_join(amter.18, by = "geo_fips")
+stater.18 %>%
+filter( description == "Farm employment" ) %>%
+ggplot( aes ( x = RCA ) ) +
+geom_density() +
+theme_classic()
 
-dat_map.2 %>%
-  filter(description == "Farm employment") %>%
-  ggplot(aes(x = x, y = y, group = group,
-             fill = rca, color = rca)) +
-  geom_polygon() +
-  theme_void()
+stater.02 %>%
+filter( description == "Farm employment" ) %>%
+ggplot( aes ( x = rca ) ) +
+geom_histogram() +
+theme_classic()
+
+stater.02 %>%
+filter( description == "Farm employment" ) %>%
+ggplot( aes ( x = rca ) ) +
+geom_density() +
+theme_classic()
+```
+
+```{r}
+# Kort med RCA for landbrug
+library (usmap)
+
+# Hent et kort over USA med koordinater
+stat_dat <- us_map( regions = "states" )
+
+# Lim analysen sammen med kortet ( full er geo_ name i kortdata )
+dat_map <- left_join( stat_dat , stater.18 , by = c( "full" = "geo_name" ) )
+
+
+# Vis kortet
+dat_map %>%
+filter( description == "Farm employment" ) %>%
+ggplot( aes ( x=x , y=y , group=group ,
+fill=rca , color=rca ) ) +
+geom_polygon() +
+theme_void()
 ```
 
