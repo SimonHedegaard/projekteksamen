@@ -12,17 +12,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library ( tidyverse )
 # Husk at tilpasse stien til din egen pc
-geodat ← read .csv( "//id . aau . dk/ Users /jrh/00_ data _ analysis .
-csv " )
+geodat <- read_csv("00_data_analysis.csv")
 glimpse ( geodat )
 ```
 
 ```{r}
-library(tidyverse)
-#Husk at tilpasse stien til din egen pc
-geodat <- read.csv("//ID.AAU.DK/Users/jrh/Documents/Teaching/Innovation2021/rca opgave/00_data_analysis.csv")
-glimpse(geodat)
-
 #Kun stater og kun 2018 data. NA bliver 0 for variablen value
 stater.18 <- geodat %>%
   filter(county==0&region==0&year==2018) %>%
