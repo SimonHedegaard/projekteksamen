@@ -1,0 +1,19 @@
+---
+title: "Øvelse med RCA"
+author: "Viktor Damm"
+date: "2024-12-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library ( tidyverse )
+# Husk at tilpasse stien til din egen pc
+geodat ← read .csv( "//id . aau . dk/ Users /jrh/00_ data _ analysis .
+csv " )
+glimpse ( geodat )
+```
+
