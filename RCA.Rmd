@@ -17,3 +17,105 @@ csv " )
 glimpse ( geodat )
 ```
 
+```{r}
+library(tidyverse)
+#Husk at tilpasse stien til din egen pc
+geodat <- read.csv("//ID.AAU.DK/Users/jrh/Documents/Teaching/Innovation2021/rca opgave/00_data_analysis.csv")
+glimpse(geodat)
+
+#Kun stater og kun 2018 data. NA bliver 0 for variablen value
+stater.18 <- geodat %>%
+  filter(county==0&region==0&year==2018) %>%
+  mutate(value=case_when(is.na(value)~0,TRUE~value))
+
+
+stater.18 <- stater.18 %>%
+  mutate(L=sum(value)) %>%
+  group_by(geo_name) %>%
+  mutate(L.a=sum(value)) %>%
+  ungroup() %>%
+  group_by(description) %>% 
+  mutate(L.b=sum(value)) %>%
+  ungroup() %>%
+  mutate(rca=value*L/(L.a*L.b)) %>%
+  select(-line_code,-region,-county,-industry_classification) %>%
+  glimpse()
+
+
+#Histogram og density
+library(ggplot2)
+
+stater.18 %>%
+  filter(description == "Farm employment") %>%
+  ggplot(aes(x=rca)) +
+  geom_histogram() +
+  theme_classic()
+
+stater.18 %>%
+  filter(description == "Farm employment") %>%
+  ggplot(aes(x=rca)) +
+  geom_density() +
+  theme_classic()
+
+
+#Resultat p� kort
+library(usmap)
+
+#Hent et kort over USA med koordinater
+stat_dat <- us_map(regions = "states")
+
+# Lim analysen p� kortet (full er geo_name i kortdata)
+dat_map <- left_join(stat_dat,stater.18, by = c("full"="geo_name"))
+
+
+# print kortet
+dat_map %>%
+  filter(description == "Farm employment") %>%
+  ggplot(aes(x = x, y = y, group = group,
+             fill = rca, color = rca)) +
+  geom_polygon() +
+  theme_void()
+
+
+
+
+#Koden herunder laver samme analyse men p� amt-niveau
+#Analysen bliver dermed endnu mere overbevisende
+#Man skal bruge andre variable til at lave kortet p� amt-niveau
+
+amter.18 <- geodat %>%
+  filter(county==1&year==2018) %>%
+  mutate(value=case_when(is.na(value)~0,TRUE~value))
+
+amter.18 <- amter.18 %>%
+  mutate(L=sum(value)) %>%
+  group_by(geo_name) %>%
+  mutate(L.a=sum(value)) %>%
+  ungroup() %>%
+  group_by(description) %>% 
+  mutate(L.b=sum(value)) %>%
+  ungroup() %>%
+  mutate(rca=value*L/(L.a*L.b)) %>%
+  select(-line_code,-region,-county,-industry_classification) %>%
+  glimpse()
+
+amter.18 %>%
+  filter(description == "Farm employment") %>%
+  ggplot(aes(x=rca)) +
+  geom_histogram() +
+  theme_classic()
+
+county_dat <- us_map(regions = "counties")
+
+dat_map.2 <- county_dat %>%
+  mutate(geo_fips = as.numeric(fips)) %>%
+  left_join(amter.18, by = "geo_fips")
+
+dat_map.2 %>%
+  filter(description == "Farm employment") %>%
+  ggplot(aes(x = x, y = y, group = group,
+             fill = rca, color = rca)) +
+  geom_polygon() +
+  theme_void()
+```
+
