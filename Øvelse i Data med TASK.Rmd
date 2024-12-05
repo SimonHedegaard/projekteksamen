@@ -54,6 +54,56 @@ print(cor_matrix)
 
 ▶ Find også gerne de statistiske sammenhænge med jobfunktioner (1-ciffer) og (1,2) 
 
+```{r}
+library(dplyr)
+library(tidyr)
+library(stats)
+
+# Opret binære variabler (som tidligere)
+mymatrix <- TASK %>%
+  mutate(
+    binary_g1a = case_when(G1a == 1 ~ 1, TRUE ~ 0),   # Oftere bruger AI til beslutninger
+    binary_f2a = case_when(F2a == 1 ~ 1, TRUE ~ 0),   # Oftere styrer robotter
+    binary_c1 = case_when(C1 == 1 ~ 1, TRUE ~ 0),     # Oftere løser problemer
+    binary_c4 = case_when(C4 == 1 ~ 1, TRUE ~ 0),     # Oftere har autonomi til at vælge metoder
+    binary_e3a = case_when(E3a == 1 ~ 1, TRUE ~ 0),   # Oftere underviser andre
+    binary_d2 = case_when(D2 == 1 ~ 1, TRUE ~ 0)      # Bange for at miste sit arbejde
+  ) 
+
+# Jobfunktioner (1-ciffer og 1,2 niveauer)
+# Antag at jobfunktioner er gemt i 'job_1' (1-ciffer) og 'job_1_2' (1,2 niveauer)
+mymatrix <- mymatrix %>%
+  mutate(
+    job_1 = as.factor(TASK$Job1),        # 1-ciffer jobkode
+    job_1_2 = as.factor(TASK$Job1_2)    # 1,2 niveau jobkode)
+
+# Beregn middelværdi af binære variabler for hver jobfunktion (1-ciffer niveau)
+mean_by_job_1 <- mymatrix %>%
+  group_by(job_1) %>%
+  summarise(across(starts_with("binary"), mean, na.rm = TRUE))
+
+# Beregn middelværdi af binære variabler for hver jobfunktion (1,2 niveau)
+mean_by_job_1_2 <- mymatrix %>%
+  group_by(job_1_2) %>%
+  summarise(across(starts_with("binary"), mean, na.rm = TRUE))
+
+# ANOVA for at teste forskelle i grupperne for fx binary_g1a og jobfunktioner
+anova_result_1 <- aov(binary_g1a ~ job_1, data = mymatrix)
+anova_result_1_2 <- aov(binary_g1a ~ job_1_2, data = mymatrix)
+
+# Vis resultater
+print("Middelværdi af binære variabler pr. jobfunktion (1-ciffer niveau):")
+print(mean_by_job_1)
+
+print("Middelværdi af binære variabler pr. jobfunktion (1,2 niveau):")
+print(mean_by_job_1_2)
+
+print("ANOVA resultater for binary_g1a og jobfunktioner (1-ciffer):")
+summary(anova_result_1)
+
+print("ANOVA resultater for binary_g1a og jobfunktioner (1,2 niveau):")
+summary(anova_result_1_2)
+```
 
 
 ▶ I behøver ikke bruge vægtene i TASK-datasættet
